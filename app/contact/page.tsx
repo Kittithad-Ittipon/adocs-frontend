@@ -132,7 +132,7 @@ const contact = () => {
                 <i className="bx bxl-gmail text-3xl hover:text-red-600 transition duration"></i>
               </a>
               <a
-                href="https://github.com/a-kittithad-itthipon"
+                href="https://github.com/Kittithad-Ittipon"
                 target="_blank"
                 rel="noopener noreferrer"
               >
