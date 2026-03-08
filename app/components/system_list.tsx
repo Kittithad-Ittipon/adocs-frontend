@@ -84,11 +84,11 @@ export default function SystemList() {
             <thead className="bg-gray-800 sticky top-0 z-10">
               <tr className="h-[70px] p-2 text-lg text-center text-white">
                 <th className="w-[10%]">No.</th>
-                <th className="w-[20%]">Container Name</th>
+                <th className="w-[15%]">Container Name</th>
                 <th className="w-[20%]">Domain</th>
-                <th className="w-[10%]">Type</th>
+                <th className="w-[15%]">Image</th>
                 <th className="w-[15%]">Owner</th>
-                <th className="w-[15%]">Updated Date</th>
+                <th className="w-[15%]">Date</th>
                 <th className="w-[10%]">Status</th>
               </tr>
             </thead>
@@ -99,10 +99,10 @@ export default function SystemList() {
                     className="h-[65px] border-b hover:bg-gray-100 transition-all group"
                   >
                     <td>{i + 1}</td>
-                    <td className="max-w-[250px] truncate">
+                    <td className="max-w-[200px] truncate">
                       {value.container_name}
                     </td>
-                    <td className="">
+                    <td className="truncate max-w-[250px]">
                       <div className="flex justify-center items-center group gap-1">
                         <a
                           href={`https://${value.domain}`}
@@ -118,9 +118,13 @@ export default function SystemList() {
                         />
                       </div>
                     </td>
-                    <td className="max-w-[180px] truncate">{value.type}</td>
-                    <td className="max-w-[180px] truncate">{value.owner}</td>
-                    <td className="max-w-[200px] truncate">
+                    <td className="max-w-[180px] truncate" title={value.type}>
+                      {value.type}
+                    </td>
+                    <td className="max-w-[180px] truncate" title={value.owner}>
+                      {value.owner}
+                    </td>
+                    <td className="max-w-[200px] truncate" title={value.updated_at}>
                       {value.updated_at}
                     </td>
                     <td>

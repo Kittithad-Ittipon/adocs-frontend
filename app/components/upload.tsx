@@ -1,7 +1,7 @@
 "use client";
 
 import { CircleCheck, Rocket, TriangleAlert, UploadCloud } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Select,
   SelectContent,
@@ -24,6 +24,7 @@ export default function Upload() {
   const [new_file, set_new_file] = useState(false);
   const [type, set_type] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const check_file = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.files?.[0];
@@ -160,7 +161,7 @@ export default function Upload() {
         setalertmsg(true);
         return;
       }
-      if (value == "addp.site"){
+      if (value == "addp.site") {
         setmsg("Domain Name : Domain name addp.site not allowed");
         return;
       }
@@ -172,6 +173,11 @@ export default function Upload() {
   const check_type = (e: React.ChangeEvent<HTMLSelectElement>) => {
     let value = e.target.value;
     set_type(value);
+    if (value === "deploy") {
+      set_new_file(true);
+    } else {
+      set_new_file(false);
+    }
     // console.log(value)
   };
   const upload = async (e: React.FormEvent) => {
@@ -221,6 +227,9 @@ export default function Upload() {
     setmsg(data.message);
     setalertmsg(false);
     setFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
   return (
     <main className="flex flex-12 h-full justify-center items-center">
@@ -241,15 +250,28 @@ export default function Upload() {
                 htmlFor="file_zip"
                 className="border block p-3 rounded-2xl w-full h-[60%] flex flex-col justify-center items-center hover:bg-gray-100 transition cursor-pointer"
               >
-                {file ? ( <CircleCheck size={60} className="mb-3 text-green-400 transition duration-300" />) : (<UploadCloud size={60} className="mb-3 text-gray-400 transition duration-300"/>)}
+                {file ? (
+                  <CircleCheck
+                    size={60}
+                    className="mb-3 text-green-400 transition duration-300"
+                  />
+                ) : (
+                  <UploadCloud
+                    size={60}
+                    className="mb-3 text-gray-400 transition duration-300"
+                  />
+                )}
                 <span className="text-lg font-medium">
                   {file ? "File Selected" : "Click to upload .zip project"}
                 </span>
                 <span className="text-sm text-gray-500 mt-1">
-                  {file ? `File is ${(file.size / 1024 / 1024).toFixed(3)} MB` : "Please Archive your project (.zip only)"}
+                  {file
+                    ? `File is ${(file.size / 1024 / 1024).toFixed(3)} MB`
+                    : "Please Archive your project (.zip only)"}
                 </span>
               </label>
               <input
+                ref={fileInputRef}
                 type="file"
                 name="file_zip"
                 id="file_zip"
@@ -314,7 +336,7 @@ export default function Upload() {
                   <p>File Name</p>
                   <input
                     type="text"
-                    className="py-5 px-5 text-md border h-[55px] w-full rounded-2xl outline-none cursor-not-allowed bg-gray-50"
+                    className="py-5 px-5 text-md border h-[55px] w-full rounded-2xl outline-none cursor-not-allowed"
                     placeholder="File Name"
                     name="domain"
                     value={fileName}
@@ -322,7 +344,7 @@ export default function Upload() {
                   />
                 </div>
                 <div className="w-[35%] flex flex-col">
-                  <p>Project Type</p>
+                  <p>Deploy Action</p>
                   <select
                     className="px-5 text-md border h-[55px] w-full rounded-2xl outline-none"
                     onChange={check_type}
@@ -330,15 +352,10 @@ export default function Upload() {
                     required
                   >
                     <option disabled value="">
-                      Choose project type
+                      Choose Deploy Action
                     </option>
-                    <option value="html">HTML / CSS / JS</option>
-                    <option value="python">Python</option>
-                    <option value="next.js">Next.js</option>
-                    <option value="node.js">Node.js</option>
-                    <option value="laravel">Laravel</option>
-                    <option value="php">PHP</option>
-                    <option value="custom (other)">Custom (Other)</option>
+                    <option value="deploy">Deploy</option>
+                    <option value="update">Update</option>
                   </select>
                   {/* <Select>
                     <SelectTrigger className="px-5 text-md border h-[55px] w-full rounded-2xl">
@@ -357,7 +374,7 @@ export default function Upload() {
                   </Select> */}
                 </div>
               </div>
-              <div className="w-full flex gap-3 justify-start items-center mt-2">
+              {/* <div className="w-full flex gap-3 justify-start items-center mt-2">
                 <div className="w-[35%] flex h-full gap-4">
                   <p>Upload New Project</p>
                   <input
@@ -371,13 +388,13 @@ export default function Upload() {
                     }}
                   />
                 </div>
-              </div>
+              </div> */}
             </form>
             <div className="h-[5%] w-[80%] flex flex-col justify-start items-start gap-3 pt-5">
               <div className="text-md w-full h-[50px] rounded-2xl flex justify-start items-center gap-3 text-gray-500">
                 <TriangleAlert
                   className={alert_msg && !isOpen ? "" : "hidden"}
-                />{" "}
+                />
                 {isOpen ? "" : msg}
               </div>
             </div>
@@ -437,7 +454,7 @@ export default function Upload() {
             <div className="bg-gray-800 w-[70%] h-[50px] text-white flex justify-center items-center rounded-full overflow-hidden">
               <button
                 onClick={() => {
-                  setIsOpen(false), setmsg(""), setalertmsg(false);
+                  (setIsOpen(false), setmsg(""), setalertmsg(false));
                 }}
                 className="w-full h-full cursor-pointer hover:bg-sky-600 transition duration-200"
               >

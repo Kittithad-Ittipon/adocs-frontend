@@ -102,7 +102,9 @@ export default function Getsystemlist() {
           )}
         </div>
       </td>
-      <td className="max-w-[80px] truncate">{item.type}</td>
+      <td className="max-w-[80px] truncate" title={item.type}>
+        {item.type}
+      </td>
       <td className="h-[65px] align-middle">
         <div className="relative w-full h-full flex justify-center items-center">
           { item.status == "running" &&

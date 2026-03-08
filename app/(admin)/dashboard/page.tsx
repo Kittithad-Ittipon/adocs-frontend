@@ -29,7 +29,7 @@ useEffect(() => {
       const res = await fetch("/api/dashboard");
       
       if (!res.ok) {
-        console.error("fetch Error");
+        console.log("fetch Error");
         return;
       }
 
@@ -37,7 +37,7 @@ useEffect(() => {
       setData(data);
 
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -69,7 +69,7 @@ const { username, user_total, upload_total, req_total } = data;
                     <th className="w-[10%]">No.</th>
                     <th className="w-[25%]">Container Name</th>
                     <th className="w-[20%]">Domain</th>
-                    <th className="w-[15%]">Type</th>
+                    <th className="w-[15%]">Image</th>
                     <th className="w-[10%]">Status</th>
                   </tr>
                 </thead>
@@ -112,7 +112,7 @@ const { username, user_total, upload_total, req_total } = data;
             </Link>
             <a
               className="h-[90%] w-[22%] border rounded-3xl flex justify-center items-center gap-3 flex-col p-2 transition duration-200 shadow-gray-100 hover:bg-gray-800 hover:text-white"
-              href="https://dashdot.addp.site"
+              href="https://beszel.addp.site"
               target="_blank"
               rel="noopener noreferrer"
             >

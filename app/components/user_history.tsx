@@ -84,7 +84,7 @@ export default function History() {
               {logsTable.length == 0 && (
                 <tr>
                   <td
-                    colSpan={6}
+                    colSpan={7}
                     className="h-[65px] border-b hover:bg-gray-100 transition-all group"
                   >
                     No results found

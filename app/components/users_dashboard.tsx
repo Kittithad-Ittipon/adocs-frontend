@@ -4,7 +4,7 @@ import { SetStateAction, useEffect, useState } from "react";
 
 export default function Get_users_systemlist() {
   const data_container: SetStateAction<any[]> = [];
-  const [refresh, setRefresh] = useState(0)
+  const [refresh, setRefresh] = useState(0);
   const [container, setContainer] = useState<any[]>([]);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function Get_users_systemlist() {
           No results found
         </td>
       </tr>
-      );
+    );
   }
   return container.map((item, index) => (
     <tr
@@ -70,15 +70,17 @@ export default function Get_users_systemlist() {
           )}
         </div>
       </td>
-      <td className="max-w-[80px] truncate">{item.type}</td>
+      <td className="max-w-[80px] truncate" title={item.type}>
+        {item.type}
+      </td>
       <td className="h-[65px] align-middle">
         <div className="relative w-full h-full flex justify-center items-center">
-          { item.status == "running" &&
-          <Activity className="text-green-500 transition-opacity duration-200 group-hover:opacity-0"/>
-          }
-          { item.status != "running" &&
-          <Activity className="text-red-500 transition-opacity duration-200 group-hover:opacity-0" />
-          }
+          {item.status == "running" && (
+            <Activity className="text-green-500 transition-opacity duration-200 group-hover:opacity-0" />
+          )}
+          {item.status != "running" && (
+            <Activity className="text-red-500 transition-opacity duration-200 group-hover:opacity-0" />
+          )}
           <span
             className={
               item.status == "running"

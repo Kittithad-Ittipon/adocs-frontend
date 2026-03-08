@@ -69,7 +69,7 @@ const { username, user_upload_total, max_containers, container_used } = data;
                     <th className="w-[10%]">No.</th>
                     <th className="w-[25%]">Container Name</th>
                     <th className="w-[20%]">Domain</th>
-                    <th className="w-[15%]">Type</th>
+                    <th className="w-[15%]">Image</th>
                     <th className="w-[10%]">Status</th>
                   </tr>
                 </thead>
