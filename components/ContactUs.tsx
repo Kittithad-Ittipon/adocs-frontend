@@ -10,22 +10,22 @@ import { IoSend } from "react-icons/io5";
 import React, { useState } from "react";
 
 const ContactUs = () => {
-  const [Subject, setSubject] = useState("");
-  const [Text, setText] = useState("");
+  const [subjectMail, setSubjectMail] = useState<string>("");
+  const [textMail, setTextMail] = useState<string>("");
   const CheckInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
     if (value) {
-      setSubject(value);
+      setSubjectMail(value);
     }
   };
   const CheckText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     let value = e.target.value;
     if (value) {
-      setText(value);
+      setTextMail(value);
     }
   };
   const SendMail = (e: React.MouseEvent<HTMLButtonElement>) => {
-    window.open (`https://mail.google.com/mail/u/0/?fs=1&to=adocs.deploy@gmail.com&su=${encodeURIComponent(Subject)}&body=${encodeURIComponent(Text)}&view=cm` , "_blank")
+    window.open (`https://mail.google.com/mail/u/0/?fs=1&to=adocs.deploy@gmail.com&su=${encodeURIComponent(subjectMail)}&body=${encodeURIComponent(textMail)}&view=cm` , "_blank")
   }
 
   return (

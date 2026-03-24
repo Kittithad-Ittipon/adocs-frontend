@@ -9,7 +9,6 @@ import {
   FaDocker,
   FaHtml5,
   FaNodeJs,
-  FaPhp,
   FaPython,
   FaServer,
 } from "react-icons/fa";
@@ -116,12 +115,12 @@ const Main = () => {
       <div className="w-full h-100 md:h-120 xl:h-[calc(100dvh-120px)] bg-[url('/images/w02.webp')] md:bg-[url('/images/w07.jpg')] bg-cover bg-start md:bg-center bg-no-repeat xl:bg-cover flex items-center justify-center overflow-hidden">
         <div className="transition duration-200 w-full h-full bg-black/15 dark:bg-black/45 flex items-center justify-center">
           <div className="w-[95%] xl:w-[80%] h-full flex items-start justify-start flex-col gap-8 xl:gap-11">
-            <p className="flex flex-col font-[900] text-4xl md:text-6xl xl:text-8xl text-white leading-tight mt-8 xl:mt-15">
+            <p className="flex flex-col font-[900] text-4xl md:text-6xl ld:text-6xl xl:text-8xl text-white leading-tight mt-8 xl:mt-10">
               Learn <br />
               Build <br />
               Deploy
             </p>
-            <p className="text-white w-[85%] md:w-[65%] xl:w-[40%] text-xs md:text-[17px] xl:text-lg font-[500]">
+            <p className="text-white w-[85%] md:w-[65%] xl:w-[55%] text-xs md:text-[17px] xl:text-lg font-[500]">
               Manage containers, launch environments, and deploy websites
               through a user-friendly platform designed for developers.
             </p>
@@ -133,7 +132,7 @@ const Main = () => {
               <ArrowUpRight size={30} className="flex md:hidden" />
               <ArrowUpRight size={35} className="hidden md:flex xl:hidden" />
               <ArrowUpRight size={40} className="hidden xl:flex" />
-              <span className="absolute bottom-0 left-0 w-full h-[3px] bg-[linear-gradient(to_right,#0ea5e9,#67e8f9,#818cf8,#0ea5e9)] transform scale-x-0 group-hover:scale-x-100 transition duration-300 origin-left"></span>
+              <span className="absolute rounded-xl bottom-0 left-0 w-full h-[5px] bg-gradient-to-r from-sky-500 via-cyan-300 to-violet-500 transform scale-x-0 group-hover:scale-x-100 transition duration-300 origin-left"></span>
             </Link>
           </div>
         </div>

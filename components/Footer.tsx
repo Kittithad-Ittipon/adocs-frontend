@@ -23,9 +23,10 @@ export default function Footer() {
         </a>
       </div>
       <div className="text-white flex justify-center items-center text-[10px] md:text-sm xl:text-sm xl:font-[500] gap-3">
+        <p>V2.0.0</p>
         <FaRegCopyright className="text-white cursor-pointer h-4 w-4" />
         <p>
-          2026 Adocs Deployment Platform. Built with Docker & Next.js & Flask.
+          Adocs Deployment Platform. Built with Docker & Next.js & Flask. 2026
         </p>
       </div>
     </footer>

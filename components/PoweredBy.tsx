@@ -57,7 +57,7 @@ const PoweredBy = () => {
 
   return (
     <div className="w-[95%] xl:w-[80%] flex justify-start flex-col items-center mt-10 mb-10 rounded-xl py-2">
-      <div className="flex items-center mt-5 md:mt-10 xl:mt-12 text-2xl md:text-4xl font-[700] bg-[linear-gradient(to_right,#0ea5e9,#67e8f9,#818cf8,#0ea5e9)] bg-clip-text text-transparent animate-rgb">
+      <div className="flex items-center mt-5 md:mt-10 xl:mt-12 text-xl md:text-3xl font-[700] bg-[linear-gradient(to_right,#0ea5e9,#67e8f9,#818cf8,#0ea5e9)] bg-clip-text text-transparent animate-rgb">
         Powered By
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 w-full mt-15 gap-6">
