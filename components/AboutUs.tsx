@@ -14,7 +14,7 @@ const AboutUs = () => {
     },
     {
       name: "Natthawut Ploenprom",
-      role: "Technical Writer, Media Creator & API Tester",
+      role: "Technical Media Creator & API Tester",
       fbLink: "https://www.facebook.com/natthawut.ploenprom.2025",
       gmLink:
         "https://mail.google.com/mail/u/0/?fs=1&to=nat65.pwk@gmail.com&tf=cm",

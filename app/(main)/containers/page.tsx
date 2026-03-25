@@ -1,6 +1,6 @@
 const Containers = () => {
   return (
-    <main className="h-[100vh] w-full">
+    <main className="w-full min-h-screen flex items-center justify-start flex-col">
       
     </main>
   )

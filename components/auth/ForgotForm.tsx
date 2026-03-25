@@ -18,24 +18,9 @@ const forgotSchema = z.object({
 });
 
 const ForgotForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState<string>("");
 
-  const CheckStateText = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setShowPassword((prev) => !prev);
-
-    if (showPassword) {
-      toast.info("Password Hidden", {
-        description: "Your password is now hidden from view.",
-      });
-    } else {
-      toast.warning("Password Visible", {
-        description: "Your password is now visible on the screen.",
-      });
-    }
-  };
-  const toLogin = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const toForgot = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const toastID = toast.loading("Loading...");
     try {
@@ -75,7 +60,7 @@ const ForgotForm = () => {
     }
   };
   return (
-    <div className="relative w-[95%] md:w-[70%] lg:w-[50%] min-h-180 xl:w-[40%] 2xl:w-[35%] 2xl:min-h-185 3xl:min-h-180 3xl:w-[30%] 2xl:border-0 3xl:border md:border xl:border rounded-xl p-2 flex flex-col justify-between items-center">
+    <div className="relative w-[95%] sm:max-w-[500px] md:max-w-[576px] min-h-180 md:border rounded-xl p-2 flex flex-col justify-between items-center">
       <div className="absolute top-5 right-5">
         <ThemeToggle />
       </div>
@@ -95,7 +80,7 @@ const ForgotForm = () => {
           action="#"
           method="post"
           className="w-full h-full flex flex-col gap-10 md:px-8"
-          onSubmit={toLogin}
+          onSubmit={toForgot}
         >
           <div className="flex flex-col gap-5">
             <div className="flex gap-2 items-center text-xl font-[600]">
@@ -120,7 +105,7 @@ const ForgotForm = () => {
           </div>
         </form>
       </div>
-      <div className="mb-13 flex w-full px-8 justify-center flex-col gap-5 items-center pt-2">
+      <div className="mb-13 flex w-full px-8 justify-center flex-col gap-2 items-center pt-2">
         <div>
           Already have an account ?{" "}
           <Link

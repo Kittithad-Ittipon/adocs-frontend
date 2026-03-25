@@ -79,7 +79,7 @@ const LoginForm = () => {
     }
   };
   return (
-    <div className="relative w-[95%] md:w-[70%] lg:w-[50%] min-h-180 xl:w-[40%] 2xl:w-[35%] 2xl:min-h-185 3xl:min-h-180 3xl:w-[30%] 2xl:border-0 3xl:border md:border xl:border rounded-xl p-2 flex flex-col justify-between items-center">
+    <div className="relative w-[95%] sm:max-w-[500px] md:max-w-[576px] min-h-180 md:border rounded-xl p-2 flex flex-col justify-between items-center">
       <div className="absolute top-5 right-5">
         <ThemeToggle />
       </div>
@@ -148,7 +148,7 @@ const LoginForm = () => {
           </div>
         </form>
       </div>
-      <div className="mb-13 flex w-full px-8 justify-between flex-col gap-4 items-center pt-2">
+      <div className="mb-13 flex w-full px-8 justify-between flex-col gap-2 items-center pt-2">
         <div>
           Don’t have an account ?{" "}
           <Link

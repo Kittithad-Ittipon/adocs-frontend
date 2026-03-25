@@ -48,7 +48,7 @@ export default function Navbar() {
             </p>
           </div>
         </div>
-        <div className="hidden xl:flex justify-center gap-15 h-full items-center w-[40%] text-lg font-[600]">
+        <div className="hidden xl:flex justify-center gap-15 2xl:gap-4 3xl:gap-15 h-full items-center w-[40%] text-lg font-[600]">
           <Link href="/" className={isActive("/")}>
             Home
           </Link>

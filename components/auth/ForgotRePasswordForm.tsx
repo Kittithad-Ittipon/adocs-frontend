@@ -1,12 +1,10 @@
 "use client";
 
 import {
-  AtSign,
-  CircleQuestionMark,
   Eye,
   EyeOff,
   LockKeyhole,
-  ShieldUser,
+  MailQuestionMark,
 } from "lucide-react";
 import Link from "next/link";
 import { ThemeToggle } from "../ThemeToggle";
@@ -14,40 +12,23 @@ import { Input } from "../ui/input";
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Field, FieldContent, FieldLabel } from "../ui/field";
-import { Checkbox } from "../ui/checkbox";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
-import { Button } from "../ui/button";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "../ui/hover-card";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 
-const registerSchema = z.object({
-  username: z
+const forgotRePasswordSchema = z.object({
+  otp: z
     .string()
-    .min(1, { message: "Username is required." })
-    .regex(/^[a-zA-Z0-9@.]+$/, {
-      message: "Username Special characters not allowed.",
+    .min(1, { message: "OTP is required." })
+    .regex(/^[0-9]+$/, {
+      message: "OTP number only.",
     }),
-  email: z
-    .email({ message: "Invalid email format." })
-    .min(1, { message: "Email is required." }),
+
   password: z.string().min(8, { message: "Password minimum 8 characters." }),
 });
 
-const RegisterForm = () => {
+const ForgotRePasswordForm = () => {
   const [showPassword, setShowPassword] = useState(true);
-  const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const [otpValue, setOTPValue] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [dbState, setDBState] = useState(false);
 
   const CheckStateText = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -63,22 +44,22 @@ const RegisterForm = () => {
       });
     }
   };
-  const toRegister = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const toForgotRePassword = async (
+    e: React.SyntheticEvent<HTMLFormElement>,
+  ) => {
     e.preventDefault();
     const toastID = toast.loading("Loading...");
     try {
-      const result = registerSchema.safeParse({
-        username: username,
-        email: email,
+      const result = forgotRePasswordSchema.safeParse({
+        otp: otpValue,
         password: password,
       });
       if (!result.success) {
         toast.dismiss(toastID);
         const errorMessage = result.error.issues[0].message;
-        toast.error(`Validation Error`, { description: errorMessage });
+        toast.error("Validation Error", { description: errorMessage });
         return;
       }
-      console.log(dbState);
     } catch (error) {
       toast.dismiss(toastID);
       toast.error("Error", { description: "Server Error 500" });
@@ -89,7 +70,7 @@ const RegisterForm = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, email, password, dbState }),
+        body: JSON.stringify({ otpValue, password }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -125,44 +106,34 @@ const RegisterForm = () => {
         <form
           action="#"
           method="post"
-          className="w-full h-full flex flex-col gap-5 md:px-8"
-          onSubmit={toRegister}
+          className="w-full h-full flex flex-col gap-10 md:px-8"
+          onSubmit={toForgotRePassword}
         >
           <div className="flex flex-col gap-5">
-            <div className="flex gap-2 items-center text-lg font-[600]">
-              <ShieldUser size={26} /> Username
+            <div className="flex gap-2 items-center text-xl font-[600]">
+              <MailQuestionMark size={30} /> OTP
             </div>
             <div>
-              <Input
-                placeholder="Enter Your Username"
-                id="username"
-                type="text"
-                className="h-15 shadow-none"
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-              ></Input>
+              <InputOTP
+                maxLength={6}
+                value={otpValue}
+                onChange={(value) => setOTPValue(value)}
+                className="w-full"
+              >
+                <InputOTPGroup className="flex w-full justify-center">
+                  <InputOTPSlot index={0} className="h-15 shadow-none flex-1" />
+                  <InputOTPSlot index={1} className="h-15 shadow-none flex-1" />
+                  <InputOTPSlot index={2} className="h-15 shadow-none flex-1" />
+                  <InputOTPSlot index={3} className="h-15 shadow-none flex-1" />
+                  <InputOTPSlot index={4} className="h-15 shadow-none flex-1" />
+                  <InputOTPSlot index={5} className="h-15 shadow-none flex-1" />
+                </InputOTPGroup>
+              </InputOTP>
             </div>
           </div>
           <div className="flex flex-col gap-5">
-            <div className="flex gap-2 items-center text-lg font-[600]">
-              <AtSign size={26} /> Email
-            </div>
-            <div>
-              <Input
-                placeholder="Enter Your Email"
-                id="username"
-                type="text"
-                className="h-15 shadow-none"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              ></Input>
-            </div>
-          </div>
-          <div className="flex flex-col gap-5">
-            <div className="flex gap-2 items-center text-lg font-[600]">
-              <LockKeyhole size={26} /> Password
+            <div className="flex gap-2 items-center text-xl font-[600]">
+              <LockKeyhole size={30} /> Password
             </div>
             <div className="relative">
               <Input
@@ -184,60 +155,25 @@ const RegisterForm = () => {
               </button>
             </div>
           </div>
-          <Field orientation="horizontal" className="flex items-center pt-2">
-            <Checkbox
-              id="terms-checkbox-2"
-              name="terms-checkbox-2"
-              className="h-5 w-5 shadow-none cursor-pointer"
-              onCheckedChange={(checked) => {
-                setDBState(checked as boolean);
-              }}
-            />
-            <div className="flex items-center gap-4">
-              <FieldLabel
-                htmlFor="terms-checkbox-2"
-                className="text-md font-[400]"
-              >
-                Enable Managed Database
-              </FieldLabel>
-              <HoverCard openDelay={10} closeDelay={100}>
-                <HoverCardTrigger asChild>
-                  <div className="bg-transparent text-black dark:text-white flex justify-center items-center w-8 h-8 rounded-lg transition duration-200 hover:bg-black/5 dark:hover:bg-white/10">
-                    <CircleQuestionMark className="w-5 h-5" />
-                  </div>
-                </HoverCardTrigger>
-                <HoverCardContent
-                  className="flex w-65 flex-col gap-1"
-                  side="right"
-                >
-                  <div className="font-[600] text-md">Create Your Databse</div>
-                  <div className="text-sm font-[300]">
-                    Enable this to create a database user. Access to phpMyAdmin
-                    is granted using the provided username and password.
-                  </div>
-                </HoverCardContent>
-              </HoverCard>
-            </div>
-          </Field>
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center mt-5">
             <button className="w-full p-3 h-auto bg-black/85 text-white text-lg font-[500] rounded-xl cursor-pointer transition duration-200 hover:bg-black/75 dark:text-black dark:bg-white dark:hover:bg-white/85 dark:hover:text-black">
-              Register
+              Verify
             </button>
           </div>
         </form>
       </div>
       <div className="mb-13 flex w-full px-8 justify-between flex-col gap-2 items-center pt-2">
         <div>
-          Already have an account ?{" "}
+          Don’t have an account ?{" "}
           <Link
-            href={"/login"}
+            href={"/register"}
             className="text-sky-500 font-[500] text-sky-500 dark:text-cyan-300 transition duration-200 hover:text-black hover:dark:text-white"
           >
-            Login
+            Register
           </Link>
         </div>
       </div>
     </div>
   );
 };
-export default RegisterForm;
+export default ForgotRePasswordForm;
