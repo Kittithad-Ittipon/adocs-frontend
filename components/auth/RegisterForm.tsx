@@ -35,7 +35,8 @@ const registerSchema = z.object({
     .min(1, { message: "Username is required." })
     .regex(/^[a-zA-Z0-9@.]+$/, {
       message: "Username Special characters not allowed.",
-    }),
+    })
+    .max(15, {message: "Username maximun 15 characters"}),
   email: z
     .email({ message: "Invalid email format." })
     .min(1, { message: "Email is required." }),
