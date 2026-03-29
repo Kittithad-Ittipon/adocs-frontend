@@ -43,7 +43,7 @@ export default function Navbar() {
               size={35}
               className="xl:hidden flex text-sky-500 dark:text-cyan-300 group-hover:text-cyan-300 dark:group-hover:text-sky-500 transition duration-200"
             />
-            <p className="text-xl md:text-2xl xl:text-3xl font-[700] bg-[linear-gradient(to_right,#0ea5e9,#67e8f9,#818cf8,#0ea5e9)] bg-clip-text text-transparent animate-rgb group-hover:animate-none">
+            <p className="text-xl md:text-2xl xl:text-3xl font-[700] bg-[linear-gradient(to_right,#0ea5e9,#67e8f9,#818cf8,#0ea5e9)] bg-clip-text text-transparent animate-rgb">
               ADOCS
             </p>
           </div>

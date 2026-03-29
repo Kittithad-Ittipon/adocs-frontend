@@ -85,7 +85,7 @@ const RegisterForm = () => {
       toast.error("Error", { description: "Server Error 500" });
     }
     try {
-      const res = await fetch("/api/login", {
+      const res = await fetch("/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -211,7 +211,7 @@ const RegisterForm = () => {
                   className="flex w-65 flex-col gap-1"
                   side="right"
                 >
-                  <div className="font-[600] text-md">Create Your Databse</div>
+                  <div className="font-[600] text-md">Create Your Database</div>
                   <div className="text-sm font-[300]">
                     Enable this to create a database user. Access to phpMyAdmin
                     is granted using the provided username and password.

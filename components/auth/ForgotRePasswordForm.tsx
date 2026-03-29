@@ -65,7 +65,7 @@ const ForgotRePasswordForm = () => {
       toast.error("Error", { description: "Server Error 500" });
     }
     try {
-      const res = await fetch("/api/login", {
+      const res = await fetch("/api/forgot-repassword", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

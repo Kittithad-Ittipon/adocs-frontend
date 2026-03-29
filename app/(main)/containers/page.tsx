@@ -40,18 +40,326 @@ type containersItem = {
 };
 
 const Containers = () => {
-  const [allData, setAllData] = useState<containersItem[]>([]);
+  const [allData, setAllData] = useState<containersItem[]>([
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+    {
+      containername: "system",
+      domain: "system A",
+      image: "node.js-20",
+      owner: "kit",
+      updatetime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "running",
+    },
+  ]);
   const [isViewerMode, setIsViewerMode] = useState(false);
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const fetchContainersData = async () => {
-      const toastID = toast.loading("Loading...");
+      const toastID = "loading-active-sites";
+      toast.loading("Loading...", { id: toastID });
       try {
         const res = await fetch("/api/active-site");
         if (!res.ok) {
-          toast.dismiss(toastID);
-          toast.error("Error Fetch Data", { description: "Failed to load" });
+          toast.error("Error Fetch Data", {
+            description: "Failed to load",
+            id: toastID,
+          });
           return;
         }
         const data = await res.json();
@@ -59,8 +367,10 @@ const Containers = () => {
         toast.dismiss(toastID);
       } catch (error) {
         console.log(error);
-        toast.dismiss(toastID);
-        toast.error("Error Fetch Data", { description: "Server error 500" });
+        toast.error("Error Fetch Data", {
+          description: "Server error 500",
+          id: toastID,
+        });
       }
     };
     fetchContainersData();
@@ -72,9 +382,6 @@ const Containers = () => {
   const toChangeViewerMode = (state: boolean) => {
     if (isViewerMode !== state) {
       setIsViewerMode(state);
-      toast.success("View Mode Changed", {
-        description: state ? "Switched to Card View" : "Switched to Table View",
-      });
       return;
     }
     toast.info("Already in this mode", {
@@ -151,8 +458,8 @@ const Containers = () => {
           </div>
         </div>
         {isViewerMode === false && (
-          <div className="w-full mt-4 xl:px-4 mb-10 mt-10">
-            <div className="border rounded-xl overflow-hidden">
+          <div className="w-full mt-4 xl:px-4 mb-10 mt-10 h-full">
+            <div className="border rounded-xl overflow-hidden h-full xl:h-[70vh] overflow-y-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               <Table>
                 <TableHeader className="bg-muted/50">
                   <TableRow className="text-sm text-muted-foreground">
@@ -249,7 +556,7 @@ const Containers = () => {
           </div>
         )}
         {isViewerMode === true && (
-          <div className="w-full mt-4 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 xl:px-4 mb-10 mt-10">
+          <div className="w-full mt-4 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 xl:px-4 mb-10 mt-10 h-full xl:h-[70vh] overflow-y-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {filteredData.map((value, index) => (
               <div
                 key={index}

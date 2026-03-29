@@ -142,9 +142,27 @@
   }
 }
 
+@keyframes rgb-flow-box {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 3500% 50%;
+  }
+}
+
 @layer utilities {
   .animate-rgb {
     background-size: 200% auto;
     animation: rgb-flow 4s linear infinite;
   }
+  .animate-rgb-box {
+    background-size: 3500% auto;
+    animation: rgb-flow 60s linear infinite;
+  }
+}
+
+.custom-scroll::-webkit-scrollbar {
+  display: none;
 }
