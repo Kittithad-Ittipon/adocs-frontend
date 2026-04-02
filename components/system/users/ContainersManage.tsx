@@ -18,6 +18,40 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { BsThreeDots } from "react-icons/bs";
+import { CircleX, Trash2Icon } from "lucide-react";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { IoMdSettings } from "react-icons/io";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 type containersData = {
   protocol: string;
@@ -30,7 +64,81 @@ type containersData = {
 
 const ComponentContainersManage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedContainers, setSelectedContainers] =
+    useState<containersData | null>(null);
   const [containersData, setContainersData] = useState<containersData[]>([
+    {
+      protocol: "http",
+      domain: "adoxs.addp.site",
+      port: "80",
+      pubblish: true,
+      status: "running",
+      projectPath: "/hdd/users/data/admin",
+    },
+    {
+      protocol: "http",
+      domain: "adoxs.addp.site",
+      port: "80",
+      pubblish: false,
+      status: "pending",
+      projectPath: "/hdd/users/data/admin",
+    },
+    {
+      protocol: "http",
+      domain: "adoxs.addp.site",
+      port: "80",
+      pubblish: false,
+      status: "stopped",
+      projectPath: "/hdd/users/data/admin",
+    },
+    {
+      protocol: "http",
+      domain: "adoxs.addp.site",
+      port: "80",
+      pubblish: true,
+      status: "running",
+      projectPath: "/hdd/users/data/admin",
+    },
+    {
+      protocol: "http",
+      domain: "adoxs.addp.site",
+      port: "80",
+      pubblish: false,
+      status: "pending",
+      projectPath: "/hdd/users/data/admin",
+    },
+    {
+      protocol: "http",
+      domain: "adoxs.addp.site",
+      port: "80",
+      pubblish: false,
+      status: "stopped",
+      projectPath: "/hdd/users/data/admin",
+    },
+    {
+      protocol: "http",
+      domain: "adoxs.addp.site",
+      port: "80",
+      pubblish: true,
+      status: "running",
+      projectPath: "/hdd/users/data/admin",
+    },
+    {
+      protocol: "http",
+      domain: "adoxs.addp.site",
+      port: "80",
+      pubblish: false,
+      status: "pending",
+      projectPath: "/hdd/users/data/admin",
+    },
+    {
+      protocol: "http",
+      domain: "adoxs.addp.site",
+      port: "80",
+      pubblish: false,
+      status: "stopped",
+      projectPath: "/hdd/users/data/admin",
+    },
     {
       protocol: "http",
       domain: "adoxs.addp.site",
@@ -144,7 +252,9 @@ const ComponentContainersManage = () => {
                     </div>
                   </TableCell>
                   <TableCell className="py-4 text-center">
-                    <span className={`px-2.5 py-1 ${value.pubblish ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"} rounded-md text-xs font-medium max-w-[150px] truncate inline-block transition duration-200`}>
+                    <span
+                      className={`px-2.5 py-1 ${value.pubblish ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"} rounded-md text-xs font-medium max-w-[150px] truncate inline-block transition duration-200`}
+                    >
                       {value.pubblish ? "YES" : "NO"}
                     </span>
                   </TableCell>
@@ -166,7 +276,13 @@ const ComponentContainersManage = () => {
                     </span>
                   </TableCell>
                   <TableCell className="flex items-center justify-start">
-                    <button className="flex justify-start items-center text-gray-400 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300 transition-colors h-full">
+                    <button
+                      onClick={() => {
+                        setIsOpen(true);
+                        setSelectedContainers(value);
+                      }}
+                      className="flex justify-start items-center text-gray-400 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300 transition-colors h-full"
+                    >
                       <BsThreeDots size={30} />
                     </button>
                   </TableCell>
@@ -184,6 +300,168 @@ const ComponentContainersManage = () => {
               )}
             </TableBody>
           </Table>
+        </div>
+        <div
+          className={`relative w-full mt-4 rounded-xl overflow-hidden transition-all flex justify-center duration-400 ${isOpen ? "h-[850px] md:h-[700px] border" : "h-[0px]"}`}
+        >
+          <div className="w-full h-full overflow-y-auto scrollbar-hide px-12 py-11 flex flex-col justify-between [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                setSelectedContainers(null);
+              }}
+              className="absolute top-4 right-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 z-50 cursor-pointer transition-colors"
+            >
+              <CircleX />
+            </button>
+            <div className="text-xl mb-4 md:0 font-[700] flex gap-3 items-center">
+              <IoMdSettings size={30} /> Containers Management
+            </div>
+            <div className="grid grid-cols-1 w-full md:gap-8">
+              <Field className="mb-4 md:mb-0">
+                <FieldLabel htmlFor="input-deployment-action">
+                  Protocol
+                </FieldLabel>
+                <div className="relative w-full">
+                  <Select>
+                    <SelectTrigger
+                      className="w-full !h-15 shadow-none"
+                      id="input-deployment-action"
+                    >
+                      <SelectValue placeholder="Choose an option" />
+                    </SelectTrigger>
+
+                    <SelectContent position="popper" sideOffset={4}>
+                      <SelectGroup>
+                        <SelectLabel>Protocol Type</SelectLabel>
+                        <SelectItem value="http">HTTP</SelectItem>
+                        <SelectItem value="https">HTTPS</SelectItem>{" "}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <FieldDescription className="flex items-start justify-start gap-2">
+                  The internal protocol your app uses (e.g., HTTP for 80). Match
+                  this if domain access fails.
+                </FieldDescription>
+              </Field>
+              <Field className="mb-4 md:mb-0">
+                <FieldLabel htmlFor="input-port">Port</FieldLabel>
+                <Input
+                  id="input-port"
+                  type="text"
+                  className="h-15 shadow-none"
+                  placeholder="Enter Port Number"
+                />
+                <FieldDescription>
+                  The internal port your service listens on (e.g., 3000 for
+                  Node.js, 80 for Nginx).
+                </FieldDescription>
+              </Field>
+              <FieldGroup className="w-full mb-4 md:mb-0">
+                <FieldLabel
+                  htmlFor="switch-db"
+                  className="!min-h-15 shadow-none"
+                >
+                  <Field orientation="horizontal">
+                    <FieldContent>
+                      <FieldTitle>Publish Container</FieldTitle>
+                      <FieldDescription>
+                        Expose this container to the local area network.
+                      </FieldDescription>
+                    </FieldContent>
+                    <Switch
+                      key={selectedContainers?.domain}
+                      id="switch-db"
+                      defaultChecked={selectedContainers?.pubblish}
+                    />
+                  </Field>
+                </FieldLabel>
+              </FieldGroup>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 w-full gap-2 md:gap-4">
+              <div className="w-full">
+                <Button
+                  form="form-edit-users"
+                  className="shadow-none h-10 w-full md:h-13 bg-black/85 dark:bg-white dark:hover:bg-white/80 cursor-pointer"
+                >
+                  Save Change
+                </Button>
+              </div>
+              <div className="w-full">
+                {selectedContainers?.status == "running" && (
+                  <Button
+                    form="form-edit-users"
+                    className="shadow-none h-10 w-full md:h-13 cursor-pointer bg-amber-500 text-white hover:bg-amber-600 dark:bg-amber-500 dark:hover:bg-amber-700 transition-colors"
+                  >
+                    Stop
+                  </Button>
+                )}
+                {selectedContainers?.status == "stopped" && (
+                  <Button
+                    form="form-edit-users"
+                    className="shadow-none h-10 w-full md:h-13 cursor-pointer bg-emerald-600 text-white hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-700 transition-colors"
+                  >
+                    Start
+                  </Button>
+                )}
+              </div>
+              <div className="w-full">
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="destructive"
+                      className="w-full shadow-none font-[500] bg-red-500 text-white hover:bg-red-600 dark:bg-red-500 dark:hover:bg-red-700 h-10 md:h-13 cursor-pointer"
+                    >
+                      Delete Container
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent size="sm" className="!max-w-[500px]">
+                    <AlertDialogHeader>
+                      <AlertDialogMedia className="dark:bg-red-500 bg-red-100 text-red-600 dark:text-white">
+                        <Trash2Icon />
+                      </AlertDialogMedia>
+                      <AlertDialogTitle className="font-[700]">
+                        Delete Entire Stack?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription className="flex flex-col gap-3 text-left mt-2">
+                        <span>
+                          Are you sure you want to delete this container? This
+                          action is permanent and will permanently delete{" "}
+                          <strong>ALL containers</strong> running in the same
+                          stack.
+                        </span>
+                        <span className="p-3 bg-red-50 dark:bg-red-500 rounded-lg border border-red-100 dark:border-red-900/50 flex flex-col gap-1 text-slate-800 dark:text-slate-200 text-sm">
+                          <span className="max-w-[300px] truncate">
+                            <strong>Domain</strong> {selectedContainers?.domain}
+                          </span>
+                        </span>
+                        <span>
+                          All associated resources, including mapped data,
+                          networks, and configurations for this entire stack
+                          will be wiped from the server.
+                        </span>
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className="mt-4">
+                      <AlertDialogCancel
+                        variant="outline"
+                        className="!shadow-none"
+                      >
+                        Cancel
+                      </AlertDialogCancel>
+                      <AlertDialogAction
+                        variant="destructive"
+                        className="shadow-none dark:bg-red-500 dark:hover:bg-red-700 dark:text-white"
+                      >
+                        Yes, delete stack
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
