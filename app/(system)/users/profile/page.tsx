@@ -1,6 +1,6 @@
+import ComponentProfile from "@/components/system/Profile";
+
 const UsersProfile = () => {
-  return (
-    <div>UsersProfile</div>
-  )
-}
-export default UsersProfile
+  return <ComponentProfile />;
+};
+export default UsersProfile;

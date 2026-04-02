@@ -1,6 +1,6 @@
+import ComponentLogs from "@/components/system/Logs";
+
 const UsersLogs = () => {
-  return (
-    <div>UsersLogs</div>
-  )
-}
-export default UsersLogs
+  return <ComponentLogs />;
+};
+export default UsersLogs;

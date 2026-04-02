@@ -1,6 +1,6 @@
+import ComponentUsersManage from "@/components/system/admin/UsersManage";
+
 const UsersManage = () => {
-  return (
-    <div>UsersManage</div>
-  )
-}
-export default UsersManage
+  return <ComponentUsersManage />;
+};
+export default UsersManage;

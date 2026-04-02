@@ -5,12 +5,12 @@ import {
   Rocket,
   LayoutDashboard,
   Upload,
-  Users,
   UserCircle,
   FileText,
+  Box,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../../ui/tooltip";
 
 interface SidebarProps {
   isCollapsed?: boolean;
@@ -18,11 +18,11 @@ interface SidebarProps {
 
 const menuItems = [
   { title: "ADOCS", icon: Rocket, href: "/" },
-  { title: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
-  { title: "Upload", icon: Upload, href: "/upload" },
-  { title: "Users Manage", icon: Users, href: "/users-manage" },
-  { title: "Profile", icon: UserCircle, href: "/profile" },
-  { title: "Logs", icon: FileText, href: "/logs" },
+  { title: "Dashboard", icon: LayoutDashboard, href: "/users/dashboard" },
+  { title: "Upload", icon: Upload, href: "/users/upload" },
+  { title: "Containers", icon: Box, href: "/users/container-manage" },
+  { title: "Profile", icon: UserCircle, href: "/users/profile" },
+  { title: "Logs", icon: FileText, href: "/users/logs" },
 ];
 
 const Sidebar = ({ isCollapsed = false }: SidebarProps) => {

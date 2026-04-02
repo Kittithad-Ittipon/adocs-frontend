@@ -1,6 +1,6 @@
+import ComponentUploads from "@/components/system/Uploads";
+
 const Upload = () => {
-  return (
-    <div>Upload</div>
-  )
-}
-export default Upload
+  return <ComponentUploads />;
+};
+export default Upload;

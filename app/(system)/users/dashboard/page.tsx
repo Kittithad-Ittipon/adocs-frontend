@@ -1,6 +1,6 @@
+import UserDashboard from "@/components/system/users/Dashboard";
+
 const UsersDashboard = () => {
-  return (
-    <div>UsersDashboard</div>
-  )
-}
-export default UsersDashboard
+  return <UserDashboard />;
+};
+export default UsersDashboard;

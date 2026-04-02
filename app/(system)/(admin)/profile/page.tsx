@@ -1,6 +1,6 @@
+import ComponentProfile from "@/components/system/Profile";
+
 const Profile = () => {
-  return (
-    <div>Profile</div>
-  )
-}
-export default Profile
+  return <ComponentProfile />;
+};
+export default Profile;

@@ -1,6 +1,6 @@
 "use client";
 
-import Sidebar from "@/components/system/Sidebar";
+import Sidebar from "@/components/system/users/Sidebar";
 import Topbar from "@/components/system/Topbar";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -23,7 +23,7 @@ export default function SystemLayout({
     setIsMobileOpen((prev) => !prev);
   };
   return (
-    <div className="min-h-full w-full flex flex-col font-sans items-center">
+    <div className="h-full w-full flex flex-col font-sans items-center">
       <main className="flex h-screen w-full">
         <TooltipProvider>
           <aside
