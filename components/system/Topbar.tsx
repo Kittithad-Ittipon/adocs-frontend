@@ -3,8 +3,15 @@
 import { ChevronDown, LogOut, Mail, User, UserCircle } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Topbar = () => {
+  const rounter = useRouter();
+  const toLogOut = async () => {
+    await fetch("/api/logout", { method: "POST" });
+    rounter.refresh();
+    rounter.replace("/");
+  };
   return (
     <div className="flex gap-4 items-center text-gray-800 dark:text-gray-200">
       <Popover>
@@ -61,7 +68,10 @@ const Topbar = () => {
                 <UserCircle className="w-4 h-4 text-gray-500 shrink-0" />
                 <span>My Profile</span>
               </Link>
-              <button className="flex items-center gap-3 px-2 py-2.5 text-sm font-[600] rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors text-left w-full cursor-pointer">
+              <button
+                onClick={toLogOut}
+                className="flex items-center gap-3 px-2 py-2.5 text-sm font-[600] rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors text-left w-full cursor-pointer"
+              >
                 <LogOut className="w-4 h-4 shrink-0" />
                 <span>Log out</span>
               </button>

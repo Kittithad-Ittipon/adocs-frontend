@@ -13,35 +13,13 @@ import { ThemeToggle } from "../ThemeToggle";
 import { Input } from "../ui/input";
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { z } from "zod";
-import { Field, FieldContent, FieldLabel } from "../ui/field";
+import { Field, FieldLabel } from "../ui/field";
 import { Checkbox } from "../ui/checkbox";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
-import { Button } from "../ui/button";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "../ui/hover-card";
-
-const registerSchema = z.object({
-  username: z
-    .string()
-    .min(1, { message: "Username is required." })
-    .regex(/^[a-zA-Z0-9@.]+$/, {
-      message: "Username Special characters not allowed.",
-    })
-    .max(15, {message: "Username maximun 15 characters"}),
-  email: z
-    .email({ message: "Invalid email format." })
-    .min(1, { message: "Email is required." }),
-  password: z.string().min(8, { message: "Password minimum 8 characters." }),
-});
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(true);
@@ -68,23 +46,6 @@ const RegisterForm = () => {
     e.preventDefault();
     const toastID = toast.loading("Loading...");
     try {
-      const result = registerSchema.safeParse({
-        username: username,
-        email: email,
-        password: password,
-      });
-      if (!result.success) {
-        toast.dismiss(toastID);
-        const errorMessage = result.error.issues[0].message;
-        toast.error(`Validation Error`, { description: errorMessage });
-        return;
-      }
-      console.log(dbState);
-    } catch (error) {
-      toast.dismiss(toastID);
-      toast.error("Error", { description: "Server Error 500" });
-    }
-    try {
       const res = await fetch("/api/register", {
         method: "POST",
         headers: {
@@ -101,6 +62,7 @@ const RegisterForm = () => {
         id: toastID,
         description: data.message,
       });
+      window.location.href = "/login";
     } catch (error) {
       toast.dismiss(toastID);
       toast.error("Error", { description: "Server Error 500" });
@@ -139,8 +101,13 @@ const RegisterForm = () => {
                 id="username"
                 type="text"
                 className="h-15 shadow-none"
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setUsername(e.target.value);
+                }}
+                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                  if (e.key === " ") {
+                    e.preventDefault();
+                  }
                 }}
               ></Input>
             </div>
@@ -155,8 +122,13 @@ const RegisterForm = () => {
                 id="username"
                 type="text"
                 className="h-15 shadow-none"
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setEmail(e.target.value);
+                }}
+                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                  if (e.key === " ") {
+                    e.preventDefault();
+                  }
                 }}
               ></Input>
             </div>
@@ -171,7 +143,7 @@ const RegisterForm = () => {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 className="h-15 shadow-none"
-                onChange={(e) => {
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setPassword(e.target.value);
                 }}
               ></Input>

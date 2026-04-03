@@ -39,6 +39,94 @@ const ComponentLogs = () => {
       status: "SUCCESS",
       details: "Container started successfully",
     },
+    {
+      username: "system",
+      containers: "system A",
+      action: "DEPLOY",
+      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "SUCCESS",
+      details: "Container started successfully",
+    },
+    {
+      username: "system",
+      containers: "system A",
+      action: "DEPLOY",
+      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "SUCCESS",
+      details: "Container started successfully",
+    },
+    {
+      username: "system",
+      containers: "system A",
+      action: "DEPLOY",
+      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "SUCCESS",
+      details: "Container started successfully",
+    },
+    {
+      username: "system",
+      containers: "system A",
+      action: "DEPLOY",
+      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "SUCCESS",
+      details: "Container started successfully",
+    },
+    {
+      username: "system",
+      containers: "system A",
+      action: "DEPLOY",
+      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "SUCCESS",
+      details: "Container started successfully",
+    },
+    {
+      username: "system",
+      containers: "system A",
+      action: "DEPLOY",
+      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "SUCCESS",
+      details: "Container started successfully",
+    },
+    {
+      username: "system",
+      containers: "system A",
+      action: "DEPLOY",
+      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "SUCCESS",
+      details: "Container started successfully",
+    },
+    {
+      username: "system",
+      containers: "system A",
+      action: "DEPLOY",
+      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "SUCCESS",
+      details: "Container started successfully",
+    },
+    {
+      username: "system",
+      containers: "system A",
+      action: "DEPLOY",
+      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "SUCCESS",
+      details: "Container started successfully",
+    },
+    {
+      username: "system",
+      containers: "system A",
+      action: "DEPLOY",
+      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "SUCCESS",
+      details: "Container started successfully",
+    },
+    {
+      username: "system",
+      containers: "system A",
+      action: "DEPLOY",
+      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
+      status: "SUCCESS",
+      details: "Container started successfully",
+    },
   ]);
   const [selectedLog, setSelectedLog] = useState<logsItem | null>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -194,7 +282,7 @@ const ComponentLogs = () => {
           >
             <PaintBucket />
           </button>
-          <div className="w-full h-full overflow-y-auto scrollbar-hide px-12 py-11 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="w-full h-full overflow-y-auto scrollbar-hide px-12 md:py-11 py-12 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             <div
               className={`whitespace-pre-wrap font-mono ${isChange} transition-colors duration-200`}
             >

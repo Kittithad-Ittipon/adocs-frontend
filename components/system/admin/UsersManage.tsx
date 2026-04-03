@@ -393,7 +393,7 @@ const ComponentUsersManage = () => {
             <div className="grid grid-cols1 md:grid-cols-2 items-center gap-2 md:gap-6 mt-6">
               <Button
                 form="form-edit-users"
-                className="shadow-none h-10 md:h-13 bg-black/85 dark:bg-white cursor-pointer"
+                className="shadow-none h-10 md:h-13 bg-black/85 dark:bg-white hover:dark:bg-white/80 cursor-pointer"
               >
                 Save Change
               </Button>
