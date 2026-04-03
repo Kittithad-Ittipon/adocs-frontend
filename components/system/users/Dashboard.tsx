@@ -16,17 +16,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  CloudUpload,
-  FileText,
-  SquareActivity,
-  Users,
-} from "lucide-react";
-import { useState } from "react";
+import { ArrowRight, ArrowUpRight, CloudUpload, FileText } from "lucide-react";
+import { useEffect, useState } from "react";
 import { BsDatabaseAdd, BsDatabaseFillGear } from "react-icons/bs";
 import { GoHistory } from "react-icons/go";
+import { toast } from "sonner";
 
 type containersItem = {
   containerName: string;
@@ -36,75 +30,81 @@ type containersItem = {
   status: string;
 };
 
+type usersData = {
+  username: string;
+  email: string;
+  db: boolean;
+  container: string;
+  maxContainers: string;
+  role: string;
+  userUploadTotal: number;
+};
+
 const UserDashboard = () => {
-  const [allData, setAllData] = useState<containersItem[]>([
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "stopped",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "stopped",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "stopped",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "stopped",
-    },
-  ]);
-  const [stats, setStats] = useState({
-    totalUsers: 30,
-    totalUploads: 30,
-    totalDbRequests: 30,
+  const [allData, setAllData] = useState<containersItem[]>([]);
+  const [stats, setStats] = useState<usersData>({
+    username: "Loading...",
+    email: "Loading...",
+    db: false,
+    container: "1",
+    maxContainers: "1",
+    role: "Loading...",
+    userUploadTotal: 0,
   });
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const toastID = "toast-users-data";
+      try {
+        const res = await fetch("/api/profile");
+        if (!res.ok) {
+          toast.error("Error Fetch Data", {
+            description: "Failed to load",
+            id: toastID,
+          });
+          return;
+        }
+        const data = await res.json();
+        setStats(data);
+      } catch (error) {
+        toast.error("Error Fetch Data", {
+          description: "Server error 500",
+          id: toastID,
+        });
+      }
+    };
+    fetchUserData();
+  }, []);
+  useEffect(() => {
+    const fetchContainersData = async () => {
+      const toastID = "toast-containers-data";
+      try {
+        const res = await fetch("/api/containers-data");
+        if (!res.ok) {
+          if (allData.length == 0) {
+            return;
+          }
+          toast.error("Error Fetch Data", {
+            description: "Failed to load",
+            id: toastID,
+          });
+          return;
+        }
+        const data = await res.json();
+        setAllData(data);
+      } catch (error) {
+        toast.error("Error Fetch Data", {
+          description: "Server error 500",
+          id: toastID,
+        });
+      }
+    };
+    fetchContainersData();
+  }, []);
   const dashboardData = [
     {
       title: "Uploads",
       description: "Total number of your deployed containers.",
-      value: stats.totalUploads,
+      value: stats.userUploadTotal,
       icon: CloudUpload,
       iconColor: "text-sky-500",
     },

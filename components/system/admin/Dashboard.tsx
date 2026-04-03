@@ -23,8 +23,9 @@ import {
   SquareActivity,
   Users,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsDatabaseAdd } from "react-icons/bs";
+import { toast } from "sonner";
 
 type containersItem = {
   containerName: string;
@@ -34,89 +35,50 @@ type containersItem = {
   status: string;
 };
 
+type adminData = {
+  username: string;
+  email: string;
+  db: boolean;
+  container: string;
+  maxContainers: string;
+  role: string;
+  usersTotal: number;
+  requestTotal: number;
+  uploadTotal: number;
+};
+
 const AdminDashboard = () => {
-  const [allData, setAllData] = useState<containersItem[]>([
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "stopped",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "stopped",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "stopped",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "stopped",
-    },
-  ]);
-  const [stats, setStats] = useState({
-    totalUsers: 230,
-    totalUploads: 30,
-    totalDbRequests: 30,
+  const [allData, setAllData] = useState<containersItem[]>([]);
+  const [stats, setStats] = useState<adminData>({
+    username: "Loading...",
+    email: "Loading...",
+    db: true,
+    container: "1",
+    maxContainers: "1",
+    role: "Loading...",
+    usersTotal: 0,
+    requestTotal: 0,
+    uploadTotal: 0,
   });
   const dashboardData = [
     {
       title: "Total Users",
       description: "All registered user accounts.",
-      value: stats.totalUsers,
+      value: stats.usersTotal,
       icon: Users,
       iconColor: "text-sky-500",
     },
     {
       title: "Total Uploads",
       description: "Total number of uploaded projects.",
-      value: stats.totalUploads,
+      value: stats.uploadTotal,
       icon: CloudUpload,
       iconColor: "text-cyan-500",
     },
     {
       title: "Total Requests Database",
       description: "Pending database creation requests.",
-      value: stats.totalDbRequests,
+      value: stats.requestTotal,
       icon: BsDatabaseAdd,
       iconColor: "text-teal-500",
     },
@@ -129,6 +91,55 @@ const AdminDashboard = () => {
       href: "https://beszel.addp.site",
     },
   ];
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      const toastID = "toast-admin-data";
+      try {
+        const res = await fetch("/api/dashboard");
+        if (!res.ok) {
+          toast.error("Error Fetch Data", {
+            description: "Failed to load",
+            id: toastID,
+          });
+          return;
+        }
+        const data = await res.json();
+        setStats(data);
+      } catch (error) {
+        toast.error("Error Fetch Data", {
+          description: "Server error 500",
+          id: toastID,
+        });
+      }
+    };
+    fetchAdminData();
+  }, []);
+  useEffect(() => {
+    const fetchContainersData = async () => {
+      const toastID = "toast-containers-data";
+      try {
+        const res = await fetch("/api/containers-data");
+        if (!res.ok) {
+          if (allData.length == 0) {
+            return;
+          }
+          toast.error("Error Fetch Data", {
+            description: "Failed to load",
+            id: toastID,
+          });
+          return;
+        }
+        const data = await res.json();
+        setAllData(data);
+      } catch (error) {
+        toast.error("Error Fetch Data", {
+          description: "Server error 500",
+          id: toastID,
+        });
+      }
+    };
+    fetchContainersData();
+  }, []);
   return (
     <div className="max-w-screen min-h-full flex items-center justify-start flex-col">
       <Breadcrumb className="h-full w-full justify-center items-center mt-10 md:mt-2 md:px-9 md:py-5">

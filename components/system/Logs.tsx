@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,6 +19,7 @@ import {
 } from "../ui/table";
 import { BsTerminal } from "react-icons/bs";
 import { CircleX, PaintBucket } from "lucide-react";
+import { toast } from "sonner";
 
 type logsItem = {
   username: string;
@@ -30,107 +31,38 @@ type logsItem = {
 };
 
 const ComponentLogs = () => {
-  const [allData, setAllData] = useState<logsItem[]>([
-    {
-      username: "system",
-      containers: "system A",
-      action: "DEPLOY",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "SUCCESS",
-      details: "Container started successfully",
-    },
-    {
-      username: "system",
-      containers: "system A",
-      action: "DEPLOY",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "SUCCESS",
-      details: "Container started successfully",
-    },
-    {
-      username: "system",
-      containers: "system A",
-      action: "DEPLOY",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "SUCCESS",
-      details: "Container started successfully",
-    },
-    {
-      username: "system",
-      containers: "system A",
-      action: "DEPLOY",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "SUCCESS",
-      details: "Container started successfully",
-    },
-    {
-      username: "system",
-      containers: "system A",
-      action: "DEPLOY",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "SUCCESS",
-      details: "Container started successfully",
-    },
-    {
-      username: "system",
-      containers: "system A",
-      action: "DEPLOY",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "SUCCESS",
-      details: "Container started successfully",
-    },
-    {
-      username: "system",
-      containers: "system A",
-      action: "DEPLOY",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "SUCCESS",
-      details: "Container started successfully",
-    },
-    {
-      username: "system",
-      containers: "system A",
-      action: "DEPLOY",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "SUCCESS",
-      details: "Container started successfully",
-    },
-    {
-      username: "system",
-      containers: "system A",
-      action: "DEPLOY",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "SUCCESS",
-      details: "Container started successfully",
-    },
-    {
-      username: "system",
-      containers: "system A",
-      action: "DEPLOY",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "SUCCESS",
-      details: "Container started successfully",
-    },
-    {
-      username: "system",
-      containers: "system A",
-      action: "DEPLOY",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "SUCCESS",
-      details: "Container started successfully",
-    },
-    {
-      username: "system",
-      containers: "system A",
-      action: "DEPLOY",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "SUCCESS",
-      details: "Container started successfully",
-    },
-  ]);
+  const [allData, setAllData] = useState<logsItem[]>([]);
   const [selectedLog, setSelectedLog] = useState<logsItem | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isChange, setIsChange] = useState<string>("text-sky-500");
+
+  useEffect(() => {
+    const fetchLogsData = async () => {
+      const toastID = "toast-logs";
+      try {
+        const res = await fetch("/api/logs");
+        if (!res.ok) {
+          if (allData.length == 0) {
+            return;
+          }
+          toast.error("Error Fetch Data", {
+            description: "Failed to load",
+            id: toastID,
+          });
+          return;
+        }
+        const data = await res.json();
+        setAllData(data);
+      } catch (error) {
+        toast.error("Error Fetch Data", {
+          description: "Server error 500",
+          id: toastID,
+        });
+      }
+    };
+    fetchLogsData();
+  }, []);
+
   return (
     <div className="max-w-screen min-h-full flex items-center justify-start flex-col">
       <Breadcrumb className="h-full w-full justify-center items-center mt-10 md:mt-2 md:px-9 md:py-5">
@@ -282,7 +214,7 @@ const ComponentLogs = () => {
           >
             <PaintBucket />
           </button>
-          <div className="w-full h-full overflow-y-auto scrollbar-hide px-12 md:py-11 py-12 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="w-full h-full overflow-y-auto scrollbar-hide px-12 md:py-11 py-12 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] text-[12px] md:text-[17px]">
             <div
               className={`whitespace-pre-wrap font-mono ${isChange} transition-colors duration-200`}
             >

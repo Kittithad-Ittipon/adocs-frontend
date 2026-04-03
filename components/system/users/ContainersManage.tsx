@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -52,12 +52,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 
 type containersData = {
   protocol: string;
   domain: string;
   port: string;
-  pubblish: boolean;
+  publish: boolean;
   status: string;
   projectPath: string;
 };
@@ -66,104 +67,35 @@ const ComponentContainersManage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedContainers, setSelectedContainers] =
     useState<containersData | null>(null);
-  const [containersData, setContainersData] = useState<containersData[]>([
-    {
-      protocol: "http",
-      domain: "adoxs.addp.site",
-      port: "80",
-      pubblish: true,
-      status: "running",
-      projectPath: "/hdd/users/data/admin",
-    },
-    {
-      protocol: "http",
-      domain: "adoxs.addp.site",
-      port: "80",
-      pubblish: false,
-      status: "pending",
-      projectPath: "/hdd/users/data/admin",
-    },
-    {
-      protocol: "http",
-      domain: "adoxs.addp.site",
-      port: "80",
-      pubblish: false,
-      status: "stopped",
-      projectPath: "/hdd/users/data/admin",
-    },
-    {
-      protocol: "http",
-      domain: "adoxs.addp.site",
-      port: "80",
-      pubblish: true,
-      status: "running",
-      projectPath: "/hdd/users/data/admin",
-    },
-    {
-      protocol: "http",
-      domain: "adoxs.addp.site",
-      port: "80",
-      pubblish: false,
-      status: "pending",
-      projectPath: "/hdd/users/data/admin",
-    },
-    {
-      protocol: "http",
-      domain: "adoxs.addp.site",
-      port: "80",
-      pubblish: false,
-      status: "stopped",
-      projectPath: "/hdd/users/data/admin",
-    },
-    {
-      protocol: "http",
-      domain: "adoxs.addp.site",
-      port: "80",
-      pubblish: true,
-      status: "running",
-      projectPath: "/hdd/users/data/admin",
-    },
-    {
-      protocol: "http",
-      domain: "adoxs.addp.site",
-      port: "80",
-      pubblish: false,
-      status: "pending",
-      projectPath: "/hdd/users/data/admin",
-    },
-    {
-      protocol: "http",
-      domain: "adoxs.addp.site",
-      port: "80",
-      pubblish: false,
-      status: "stopped",
-      projectPath: "/hdd/users/data/admin",
-    },
-    {
-      protocol: "http",
-      domain: "adoxs.addp.site",
-      port: "80",
-      pubblish: true,
-      status: "running",
-      projectPath: "/hdd/users/data/admin",
-    },
-    {
-      protocol: "http",
-      domain: "adoxs.addp.site",
-      port: "80",
-      pubblish: false,
-      status: "pending",
-      projectPath: "/hdd/users/data/admin",
-    },
-    {
-      protocol: "http",
-      domain: "adoxs.addp.site",
-      port: "80",
-      pubblish: false,
-      status: "stopped",
-      projectPath: "/hdd/users/data/admin",
-    },
-  ]);
+  const [port, setPort] = useState<string>("");
+  const [protocol, setProtocol] = useState<string>("");
+  const [containersData, setContainersData] = useState<containersData[]>([]);
+  useEffect(() => {
+    const fetchContainersData = async () => {
+      const toastID = "toast-containers-data";
+      try {
+        const res = await fetch("/api/containers-data");
+        if (!res.ok) {
+          if (containersData.length == 0) {
+            return;
+          }
+          toast.error("Error Fetch Data", {
+            description: "Failed to load",
+            id: toastID,
+          });
+          return;
+        }
+        const data = await res.json();
+        setContainersData(data);
+      } catch (error) {
+        toast.error("Error Fetch Data", {
+          description: "Server error 500",
+          id: toastID,
+        });
+      }
+    };
+    fetchContainersData();
+  }, []);
   return (
     <div className="max-w-screen min-h-full flex items-center justify-start flex-col">
       <Breadcrumb className="h-full w-full justify-center items-center mt-10 md:mt-2 md:px-9 md:py-5">
@@ -253,9 +185,9 @@ const ComponentContainersManage = () => {
                   </TableCell>
                   <TableCell className="py-4 text-center">
                     <span
-                      className={`px-2.5 py-1 ${value.pubblish ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"} rounded-md text-xs font-medium max-w-[150px] truncate inline-block transition duration-200`}
+                      className={`px-2.5 py-1 ${value.publish ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"} rounded-md text-xs font-medium max-w-[150px] truncate inline-block transition duration-200`}
                     >
-                      {value.pubblish ? "YES" : "NO"}
+                      {value.publish ? "YES" : "NO"}
                     </span>
                   </TableCell>
                   <TableCell className="py-4 text-center">
@@ -280,6 +212,8 @@ const ComponentContainersManage = () => {
                       onClick={() => {
                         setIsOpen(true);
                         setSelectedContainers(value);
+                        setPort(value.port);
+                        setProtocol(value.protocol);
                       }}
                       className="flex justify-start items-center text-gray-400 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300 transition-colors h-full"
                     >
@@ -315,7 +249,8 @@ const ComponentContainersManage = () => {
               <CircleX />
             </button>
             <div className="text-xl mb-4 md:0 font-[700] flex gap-3 items-center">
-              <IoMdSettings size={30} /> Containers Management
+              <IoMdSettings size={30} />
+              {selectedContainers?.domain}
             </div>
             <div className="grid grid-cols-1 w-full md:gap-8">
               <Field className="mb-4 md:mb-0">
@@ -323,14 +258,16 @@ const ComponentContainersManage = () => {
                   Protocol
                 </FieldLabel>
                 <div className="relative w-full">
-                  <Select>
+                  <Select
+                    value={protocol ? protocol.toLowerCase() : undefined}
+                    onValueChange={(value) => setProtocol(value)}
+                  >
                     <SelectTrigger
                       className="w-full !h-15 shadow-none"
                       id="input-deployment-action"
                     >
                       <SelectValue placeholder="Choose an option" />
                     </SelectTrigger>
-
                     <SelectContent position="popper" sideOffset={4}>
                       <SelectGroup>
                         <SelectLabel>Protocol Type</SelectLabel>
@@ -352,6 +289,10 @@ const ComponentContainersManage = () => {
                   type="text"
                   className="h-15 shadow-none"
                   placeholder="Enter Port Number"
+                  value={port}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setPort(e.target.value);
+                  }}
                 />
                 <FieldDescription>
                   The internal port your service listens on (e.g., 3000 for
@@ -373,7 +314,7 @@ const ComponentContainersManage = () => {
                     <Switch
                       key={selectedContainers?.domain}
                       id="switch-db"
-                      defaultChecked={selectedContainers?.pubblish}
+                      defaultChecked={selectedContainers?.publish}
                     />
                   </Field>
                 </FieldLabel>

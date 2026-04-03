@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -50,6 +50,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 
 type usersData = {
   username: string;
@@ -59,112 +60,39 @@ type usersData = {
   maxContainer: string;
   db: boolean;
   requestDB: boolean;
+  usersStatus: null;
 };
 
 const ComponentUsersManage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState<usersData | null>(null);
-  const [usersData, setUsersData] = useState<usersData[]>([
-    {
-      username: "A",
-      email: "adev@dev.com",
-      role: "user",
-      container: "4",
-      maxContainer: "5",
-      db: true,
-      requestDB: false,
-    },
-    {
-      username: "A",
-      email: "adev@dev.com",
-      role: "user",
-      container: "4",
-      maxContainer: "5",
-      db: false,
-      requestDB: true,
-    },
-    {
-      username: "A",
-      email: "adev@dev.com",
-      role: "user",
-      container: "4",
-      maxContainer: "5",
-      db: false,
-      requestDB: false,
-    },
-    {
-      username: "A",
-      email: "adev@dev.com",
-      role: "user",
-      container: "4",
-      maxContainer: "5",
-      db: false,
-      requestDB: false,
-    },
-    {
-      username: "A",
-      email: "adev@dev.com",
-      role: "user",
-      container: "4",
-      maxContainer: "5",
-      db: false,
-      requestDB: false,
-    },
-    {
-      username: "A",
-      email: "adev@dev.com",
-      role: "user",
-      container: "4",
-      maxContainer: "5",
-      db: false,
-      requestDB: false,
-    },
-    {
-      username: "A",
-      email: "adev@dev.com",
-      role: "user",
-      container: "4",
-      maxContainer: "5",
-      db: false,
-      requestDB: false,
-    },
-    {
-      username: "A",
-      email: "adev@dev.com",
-      role: "user",
-      container: "4",
-      maxContainer: "5",
-      db: false,
-      requestDB: false,
-    },
-    {
-      username: "A",
-      email: "adev@dev.com",
-      role: "user",
-      container: "4",
-      maxContainer: "5",
-      db: false,
-      requestDB: false,
-    },
-    {
-      username: "A",
-      email: "adev@dev.com",
-      role: "user",
-      container: "4",
-      maxContainer: "5",
-      db: false,
-      requestDB: false,
-    },
-    {
-      username: "Adddddcccccccccccdddd",
-      email: "adev@dev.coddddddddddddddddddddddddddddddddddm",
-      role: "user",
-      container: "4",
-      maxContainer: "5",
-      db: true,
-      requestDB: false,
-    },
-  ]);
+  const [usersData, setUsersData] = useState<usersData[]>([]);
+  useEffect(() => {
+    const fetchContainersData = async () => {
+      const toastID = "toast-containers-data";
+      try {
+        const res = await fetch("/api/users-manage");
+        if (!res.ok) {
+          if (usersData.length == 0) {
+            return;
+          }
+          toast.error("Error Fetch Data", {
+            description: "Failed to load",
+            id: toastID,
+          });
+          return;
+        }
+        const data = await res.json();
+        setUsersData(data);
+      } catch (error) {
+        toast.error("Error Fetch Data", {
+          description: "Server error 500",
+          id: toastID,
+        });
+      }
+    };
+    fetchContainersData();
+  }, []);
   return (
     <div className="max-w-screen min-h-full flex items-center justify-start flex-col">
       <Breadcrumb className="h-full w-full justify-center items-center mt-10 md:mt-2 md:px-9 md:py-5">
@@ -194,7 +122,7 @@ const ComponentUsersManage = () => {
                 <TableHead className="font-semibold h-12 py-5">EMAIL</TableHead>
                 <TableHead className="font-semibold h-12">ROLE</TableHead>
                 <TableHead className="font-semibold h-12 text-center">
-                  CONTAINER
+                  CONTAINERS
                 </TableHead>
                 <TableHead className="font-semibold h-12 text-center">
                   MAX CONTAINERS
@@ -218,9 +146,10 @@ const ComponentUsersManage = () => {
                   </TableCell>
                   <TableCell className="px-6 py-4">
                     <div
-                      className="max-w-[150px] truncate font-[400]"
+                      className={`max-w-[150px] truncate font-[400] ${value.usersStatus === null ? "" : "text-red-500 gap-3"}`}
                       title={value.username}
                     >
+                      {value.usersStatus === null ? "" : <span>Deleting</span>}{" "}
                       {value.username}
                     </div>
                   </TableCell>

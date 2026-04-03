@@ -12,7 +12,7 @@ import {
 import { Input } from "../ui/input";
 import { Field, FieldLabel } from "../ui/field";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -41,6 +41,7 @@ import {
 import { Progress } from "../ui/progress";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type usersData = {
   username: string;
@@ -49,20 +50,125 @@ type usersData = {
   container: string;
   maxContainers: string;
   role: string;
+  userUploadTotal: number;
 };
 
 const ComponentProfile = () => {
-  const [allData, setAllData] = useState<usersData[]>([
-    {
-      username: "system",
-      email: "system@example.com",
-      db: true,
-      container: "2",
-      maxContainers: "10",
-      role: "user",
-    },
-  ]);
-
+  const [allData, setAllData] = useState<usersData>({
+    username: "Loading...",
+    email: "Loading...",
+    db: false,
+    container: "1",
+    maxContainers: "1",
+    role: "Loading...",
+    userUploadTotal: 0,
+  });
+  const [password, setPassword] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const rounter = useRouter();
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const res = await fetch("/api/profile");
+        if (!res.ok) {
+          toast.error("Error Fetch Data", {
+            description: "Failed to load",
+          });
+          return;
+        }
+        const data = await res.json();
+        setAllData(data);
+      } catch (error) {
+        toast.error("Error Fetch Data", {
+          description: "Server error 500",
+        });
+      }
+    };
+    fetchProfileData();
+  }, []);
+  const toRePasswordProfile = async (
+    e: React.SyntheticEvent<HTMLFormElement>,
+  ) => {
+    e.preventDefault();
+    const toastID = toast.loading("Loading...");
+    try {
+      const res = await fetch("/api/re-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password, newPassword }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error("Error", { id: toastID, description: data.error });
+        return;
+      }
+      toast.success("Change Success", {
+        id: toastID,
+        description: data.message,
+      });
+      setPassword("");
+      setNewPassword("");
+    } catch (error) {
+      toast.dismiss(toastID);
+      toast.error("Error", { description: "Server Error 500" });
+    }
+  };
+  const toRequestDatabase = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const toastID = toast.loading("Loading...");
+    try {
+      const res = await fetch("/api/req-db", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ requestDB: true }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error("Error", { id: toastID, description: data.error });
+        return;
+      }
+      toast.success("Request Success", {
+        id: toastID,
+        description: data.message,
+      });
+    } catch (error) {
+      toast.dismiss(toastID);
+      toast.error("Error", { description: "Server Error 500" });
+    }
+  };
+  const toDeleteUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const toastID = toast.loading("Loading...");
+    const username = allData.username;
+    try {
+      const res = await fetch("/api/del-user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error("Error", { id: toastID, description: data.error });
+        return;
+      }
+      await fetch("/api/logout", { method: "POST" });
+      toast.success("Delete Success Bye!", {
+        id: toastID,
+        description: data.message,
+      });
+      rounter.refresh();
+      rounter.replace("/login");
+    } catch (error) {
+      toast.dismiss(toastID);
+      toast.error("Error", { description: "Server Error 500" });
+    }
+  };
   return (
     <div className="max-w-screen min-h-full flex items-center justify-start flex-col">
       <Breadcrumb className="h-full w-full justify-center items-center mt-10 md:mt-2 md:px-9 md:py-5">
@@ -84,26 +190,26 @@ const ComponentProfile = () => {
             <div className="border rounded-xl gap-6 p-6 flex flex-col lg:flex-row transition-all min-h-[250px]">
               <div className="flex justify-center mb-5 md:mb-0 items-center md:justify-start">
                 <div className="h-35 w-35 md:h-35 md:w-35 rounded-full flex items-center justify-center text-5xl font-[700] text-white bg-sky-400 dark:bg-cyan-500">
-                  {allData[0].username.substring(0, 2).toUpperCase()}
+                  {allData.username?.substring(0, 2).toUpperCase() || "AD"}
                 </div>
               </div>
               <div className="flex flex-col gap-3 justify-center items-start w-full h-full">
                 <div className="flex items-center gap-3 text-slate-800 dark:text-slate-200">
                   <ShieldUser className="text-sky-500 dark:text-cyan-300 w-6 h-6" />
                   <p className="font-semibold text-lg max-w-[250px] truncate">
-                    {allData[0].username}
+                    {allData.username}
                   </p>
                 </div>
                 <div className="flex items-center gap-3 text-slate-600 dark:text-white">
                   <Mail className="text-sky-500 dark:text-cyan-300 w-5 h-5 ml-0.5" />
                   <p className="font-medium text-md max-w-[250px] truncate">
-                    {allData[0].email}
+                    {allData.email}
                   </p>
                 </div>
                 <div className="flex items-center gap-3 text-slate-600 dark:text-white">
                   <MdOutlineAdminPanelSettings className="text-sky-500 dark:text-cyan-300 w-6 h-6 ml-0.5" />
                   <p className="font-medium text-md max-w-[250px] truncate">
-                    {allData[0].role}
+                    {allData.role}
                   </p>
                 </div>
               </div>
@@ -136,7 +242,11 @@ const ComponentProfile = () => {
                   </HoverCardContent>
                 </HoverCard>
               </div>
-              <form action="#" className="flex flex-col gap-5">
+              <form
+                action="#"
+                className="flex flex-col gap-5"
+                onSubmit={toRePasswordProfile}
+              >
                 <Field>
                   <FieldLabel htmlFor="new-password">New Password</FieldLabel>
                   <Input
@@ -144,6 +254,16 @@ const ComponentProfile = () => {
                     type="password"
                     className="h-12 shadow-none"
                     placeholder="Enter new password"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
+                    autoComplete="off"
+                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                      if (e.key === " ") {
+                        e.preventDefault();
+                      }
+                    }}
                   />
                 </Field>
                 <Field>
@@ -155,6 +275,15 @@ const ComponentProfile = () => {
                     type="password"
                     className="h-12 shadow-none"
                     placeholder="Confirm new password"
+                    value={newPassword}
+                    onChange={(e) => {
+                      setNewPassword(e.target.value);
+                    }}
+                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                      if (e.key === " ") {
+                        e.preventDefault();
+                      }
+                    }}
                   />
                 </Field>
                 <div className="w-full mt-6 flex justify-start xl:justify-center items-center">
@@ -177,8 +306,8 @@ const ComponentProfile = () => {
                 <div className="flex flex-col items-center justify-center w-40 h-40 rounded-full border-[12px] border-sky-50 dark:border-cyan-900/20 transition-all">
                   <span className="text-4xl xl:text-5xl font-bold text-sky-500 dark:text-cyan-300 tracking-tighter">
                     {Math.round(
-                      (parseInt(allData[0].container) /
-                        parseInt(allData[0].maxContainers)) *
+                      (parseInt(allData.container) /
+                        parseInt(allData.maxContainers)) *
                         100,
                     )}
                     %
@@ -196,25 +325,24 @@ const ComponentProfile = () => {
                       Containers Allocated
                     </span>
                     <span className="ml-auto font-bold px-3 py-1 rounded-full text-xs">
-                      {allData[0].container} / {allData[0].maxContainers}
+                      {allData.container} / {allData.maxContainers}
                     </span>
                   </FieldLabel>
                   <Progress
                     value={Math.round(
-                      (parseInt(allData[0].container) /
-                        parseInt(allData[0].maxContainers)) *
+                      (parseInt(allData.container) /
+                        parseInt(allData.maxContainers)) *
                         100,
                     )}
                     id="progress-container"
                     className="h-3"
                   />
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-4 text-center leading-relaxed">
-                    You are currently using{" "}
-                    <strong>{allData[0].container}</strong> containers and can
-                    create{" "}
+                    You are currently using <strong>{allData.container}</strong>{" "}
+                    containers and can create{" "}
                     <strong>
-                      {parseInt(allData[0].maxContainers) -
-                        parseInt(allData[0].container)}
+                      {parseInt(allData.maxContainers) -
+                        parseInt(allData.container)}
                     </strong>{" "}
                     more.
                   </p>
@@ -223,7 +351,7 @@ const ComponentProfile = () => {
             </div>
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 min-h-[250px]">
               <div className="border rounded-xl p-6 transition-all flex flex-col justify-center items-center">
-                {allData[0].db ? (
+                {allData.db ? (
                   <div className="flex flex-col items-center justify-between h-full gap-4 w-full">
                     <div className="flex flex-col items-center">
                       <div className="p-3  bg-green-100 dark:bg-green-900/30 rounded-full">
@@ -267,7 +395,10 @@ const ComponentProfile = () => {
                       </p>
                     </div>
                     <div className="w-full flex justify-center items-center">
-                      <Button className="mt-2 rounded-lg shadow-none font-[500] bg-amber-100 text-amber-700 hover:bg-amber-200 dark:bg-amber-500 dark:text-white dark:hover:bg-amber-600 w-full md:w-1/2 xl:w-full">
+                      <Button
+                        onClick={toRequestDatabase}
+                        className="mt-2 rounded-lg shadow-none font-[500] bg-amber-100 text-amber-700 hover:bg-amber-200 dark:bg-amber-500 dark:text-white dark:hover:bg-amber-600 w-full md:w-1/2 xl:w-full"
+                      >
                         Request Database Account
                       </Button>
                     </div>
@@ -286,7 +417,7 @@ const ComponentProfile = () => {
                   </div>
                 </div>
                 <div className="w-full flex justify-center items-center">
-                  {allData[0].role === "admin" ? (
+                  {allData.role === "admin" ? (
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button
@@ -311,10 +442,10 @@ const ComponentProfile = () => {
                             </span>
                             <span className="p-3 bg-red-50 dark:bg-red-500 rounded-lg border border-red-100 dark:border-red-900/50 flex flex-col gap-1 text-slate-800 dark:text-slate-200 text-sm">
                               <span className="max-w-[300px] truncate">
-                                <strong>Username</strong> {allData[0].username}
+                                <strong>Username</strong> {allData.username}
                               </span>
-                              <span className="max-w-[300px] truncate bg-red-300">
-                                <strong>Email</strong> {allData[0].email}
+                              <span className="max-w-[300px] truncate">
+                                <strong>Email</strong> {allData.email}
                               </span>
                             </span>
                             <span>
@@ -361,10 +492,10 @@ const ComponentProfile = () => {
 
                             <span className="p-3 bg-red-50 dark:bg-red-500 rounded-lg border border-red-100 dark:border-red-900/50 flex flex-col gap-1 text-slate-800 dark:text-slate-200 text-sm">
                               <span className="max-w-[300px] truncate">
-                                <strong>Username</strong> {allData[0].username}
+                                <strong>Username</strong> {allData.username}
                               </span>
                               <span className="max-w-[300px] truncate">
-                                <strong>Email</strong> {allData[0].email}
+                                <strong>Email</strong> {allData.email}
                               </span>
                             </span>
 
@@ -385,6 +516,7 @@ const ComponentProfile = () => {
                           <AlertDialogAction
                             variant="destructive"
                             className="shadow-none dark:bg-red-500 dark:hover:bg-red-700 dark:text-white"
+                            onClick={toDeleteUser}
                           >
                             Yes, delete everything
                           </AlertDialogAction>

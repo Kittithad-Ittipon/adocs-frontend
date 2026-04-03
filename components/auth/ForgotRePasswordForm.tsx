@@ -1,34 +1,19 @@
 "use client";
 
-import {
-  Eye,
-  EyeOff,
-  LockKeyhole,
-  MailQuestionMark,
-} from "lucide-react";
+import { Eye, EyeOff, LockKeyhole, MailQuestionMark } from "lucide-react";
 import Link from "next/link";
 import { ThemeToggle } from "../ThemeToggle";
 import { Input } from "../ui/input";
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { z } from "zod";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
-
-const forgotRePasswordSchema = z.object({
-  otp: z
-    .string()
-    .min(1, { message: "OTP is required." })
-    .regex(/^[0-9]+$/, {
-      message: "OTP number only.",
-    }),
-
-  password: z.string().min(8, { message: "Password minimum 8 characters." }),
-});
+import { useRouter } from "next/navigation";
 
 const ForgotRePasswordForm = () => {
   const [showPassword, setShowPassword] = useState(true);
   const [otpValue, setOTPValue] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const rounter = useRouter();
 
   const CheckStateText = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -50,21 +35,6 @@ const ForgotRePasswordForm = () => {
     e.preventDefault();
     const toastID = toast.loading("Loading...");
     try {
-      const result = forgotRePasswordSchema.safeParse({
-        otp: otpValue,
-        password: password,
-      });
-      if (!result.success) {
-        toast.dismiss(toastID);
-        const errorMessage = result.error.issues[0].message;
-        toast.error("Validation Error", { description: errorMessage });
-        return;
-      }
-    } catch (error) {
-      toast.dismiss(toastID);
-      toast.error("Error", { description: "Server Error 500" });
-    }
-    try {
       const res = await fetch("/api/forgot-repassword", {
         method: "POST",
         headers: {
@@ -85,6 +55,8 @@ const ForgotRePasswordForm = () => {
       toast.dismiss(toastID);
       toast.error("Error", { description: "Server Error 500" });
     }
+    rounter.refresh();
+    rounter.replace("/login");
   };
   return (
     <div className="relative w-[95%] sm:max-w-[500px] md:max-w-[576px] min-h-180 md:border rounded-xl p-2 flex flex-col justify-between items-center">
@@ -118,6 +90,11 @@ const ForgotRePasswordForm = () => {
                 maxLength={6}
                 value={otpValue}
                 onChange={(value) => setOTPValue(value)}
+                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                  if (e.key === " ") {
+                    e.preventDefault();
+                  }
+                }}
                 className="w-full"
               >
                 <InputOTPGroup className="flex w-full justify-center">
@@ -144,6 +121,7 @@ const ForgotRePasswordForm = () => {
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
+                autoComplete="off"
               ></Input>
               <button
                 className="absolute top-5 right-3 cursor-pointer"

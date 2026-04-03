@@ -6,18 +6,6 @@ import { ThemeToggle } from "../ThemeToggle";
 import { Input } from "../ui/input";
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { z } from "zod";
-
-const loginSchema = z.object({
-  username: z
-    .string()
-    .min(1, { message: "Username or Email is required." })
-    .regex(/^[a-zA-Z0-9@.]+$/, {
-      message: "Special characters not allowed.",
-    }),
-
-  password: z.string().min(1, { message: "Password is required." }),
-});
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -42,21 +30,6 @@ const LoginForm = () => {
     e.preventDefault();
     const toastID = toast.loading("Loading...");
     try {
-      const result = loginSchema.safeParse({
-        username: username,
-        password: password,
-      });
-      if (!result.success) {
-        toast.dismiss(toastID);
-        const errorMessage = result.error.issues[0].message;
-        toast.error("Validation Error", { description: errorMessage });
-        return;
-      }
-    } catch (error) {
-      toast.dismiss(toastID);
-      toast.error("Error", { description: "Server Error 500" });
-    }
-    try {
       const res = await fetch("/api/login", {
         method: "POST",
         headers: {
@@ -73,6 +46,7 @@ const LoginForm = () => {
         id: toastID,
         description: data.message,
       });
+      window.location.href = data.href;
     } catch (error) {
       toast.dismiss(toastID);
       toast.error("Error", { description: "Server Error 500" });
@@ -114,6 +88,11 @@ const LoginForm = () => {
                 onChange={(e) => {
                   setUsername(e.target.value);
                 }}
+                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                  if (e.key === " ") {
+                    e.preventDefault();
+                  }
+                }}
               ></Input>
             </div>
           </div>
@@ -130,6 +109,7 @@ const LoginForm = () => {
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
+                autoComplete="off"
               ></Input>
               <button
                 className="absolute top-5 right-3 cursor-pointer"

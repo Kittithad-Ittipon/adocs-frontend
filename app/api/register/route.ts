@@ -16,7 +16,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({ username, email, password, dbState }),
     });
     const flaskData = await flaskRes.json();
-    return NextResponse.json(flaskData, { status: flaskData.status });
+    return NextResponse.json(flaskData, { status: flaskRes.status });
   } catch (error) {
     return Response.json({ error: "Server Error" }, { status: 500 });
   }

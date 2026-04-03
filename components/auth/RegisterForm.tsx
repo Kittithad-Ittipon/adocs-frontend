@@ -58,7 +58,7 @@ const RegisterForm = () => {
         toast.error("Error", { id: toastID, description: data.error });
         return;
       }
-      toast.success("Login Success", {
+      toast.success("Register Success", {
         id: toastID,
         description: data.message,
       });
@@ -146,6 +146,7 @@ const RegisterForm = () => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setPassword(e.target.value);
                 }}
+                autoComplete="off"
               ></Input>
               <button
                 className="absolute top-5 right-3 cursor-pointer"

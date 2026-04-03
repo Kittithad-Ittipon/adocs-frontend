@@ -1,21 +1,11 @@
 "use client";
 
-import { Eye, EyeOff, LockKeyhole, ShieldUser } from "lucide-react";
+import { ShieldUser } from "lucide-react";
 import Link from "next/link";
 import { ThemeToggle } from "../ThemeToggle";
 import { Input } from "../ui/input";
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { z } from "zod";
-
-const forgotSchema = z.object({
-  username: z
-    .string()
-    .min(1, { message: "Username or Email is required." })
-    .regex(/^[a-zA-Z0-9@.]+$/, {
-      message: "Special characters not allowed.",
-    }),
-});
 
 const ForgotForm = () => {
   const [username, setUsername] = useState<string>("");
@@ -23,20 +13,6 @@ const ForgotForm = () => {
   const toForgot = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const toastID = toast.loading("Loading...");
-    try {
-      const result = forgotSchema.safeParse({
-        username: username,
-      });
-      if (!result.success) {
-        toast.dismiss(toastID);
-        const errorMessage = result.error.issues[0].message;
-        toast.error("Validation Error", { description: errorMessage });
-        return;
-      }
-    } catch (error) {
-      toast.dismiss(toastID);
-      toast.error("Error", { description: "Server Error 500" });
-    }
     try {
       const res = await fetch("/api/forgot", {
         method: "POST",
@@ -58,6 +34,7 @@ const ForgotForm = () => {
       toast.dismiss(toastID);
       toast.error("Error", { description: "Server Error 500" });
     }
+    window.location.href = "/forgot-repassword";
   };
   return (
     <div className="relative w-[95%] sm:max-w-[500px] md:max-w-[576px] min-h-180 md:border rounded-xl p-2 flex flex-col justify-between items-center">
@@ -94,6 +71,11 @@ const ForgotForm = () => {
                 className="h-15 shadow-none"
                 onChange={(e) => {
                   setUsername(e.target.value);
+                }}
+                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                  if (e.key === " ") {
+                    e.preventDefault();
+                  }
                 }}
               ></Input>
             </div>

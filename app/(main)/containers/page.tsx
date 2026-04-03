@@ -40,336 +40,25 @@ type containersItem = {
 };
 
 const Containers = () => {
-  const [allData, setAllData] = useState<containersItem[]>([
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-    {
-      containerName: "system",
-      domain: "system A",
-      image: "node.js-20",
-      owner: "kit",
-      upDateTime: "	Mon, 09 Mar 2026 14:11:18 GMT",
-      status: "running",
-    },
-  ]);
+  const [allData, setAllData] = useState<containersItem[]>([]);
   const [isViewerMode, setIsViewerMode] = useState(false);
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const fetchContainersData = async () => {
-      const toastID = "loading-active-sites";
-      toast.loading("Loading...", { id: toastID });
       try {
         const res = await fetch("/api/active-site");
         if (!res.ok) {
           toast.error("Error Fetch Data", {
             description: "Failed to load",
-            id: toastID,
           });
           return;
         }
         const data = await res.json();
         setAllData(data);
-        toast.dismiss(toastID);
       } catch (error) {
-        console.log(error);
         toast.error("Error Fetch Data", {
           description: "Server error 500",
-          id: toastID,
         });
       }
     };
@@ -556,11 +245,11 @@ const Containers = () => {
           </div>
         )}
         {isViewerMode === true && (
-          <div className="w-full mt-4 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 xl:px-4 mb-10 mt-10 h-full xl:h-[70vh] overflow-y-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="w-full mt-4 grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 xl:px-4 mb-10 mt-10 h-full xl:max-h-[70vh] overflow-y-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {filteredData.map((value, index) => (
               <div
                 key={index}
-                className="bg-card text-card-foreground border rounded-2xl p-5 flex flex-col gap-4 hover:shadow-md hover:border-sky-500/40 dark:hover:border-cyan-400/40 transition-all duration-300 group"
+                className="text-card-foreground border rounded-2xl p-5 flex flex-col gap-4 hover:shadow-md hover:border-sky-500/40 dark:hover:border-cyan-400/40 transition-all duration-300 group"
               >
                 <div className="flex justify-between items-start gap-3">
                   <a

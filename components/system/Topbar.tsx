@@ -4,14 +4,55 @@ import { ChevronDown, LogOut, Mail, User, UserCircle } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+
+type usersData = {
+  username: string;
+  email: string;
+  db: boolean;
+  container: string;
+  maxContainers: string;
+  role: string;
+  userUploadTotal: number;
+};
 
 const Topbar = () => {
   const rounter = useRouter();
+  const [allData, setAllData] = useState<usersData>({
+    username: "Loading...",
+    email: "Loading...",
+    db: false,
+    container: "1",
+    maxContainers: "1",
+    role: "Loading...",
+    userUploadTotal: 0,
+  });
   const toLogOut = async () => {
     await fetch("/api/logout", { method: "POST" });
     rounter.refresh();
     rounter.replace("/");
   };
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const res = await fetch("/api/profile");
+        if (!res.ok) {
+          toast.error("Error Fetch Data", {
+            description: "Failed to load",
+          });
+          return;
+        }
+        const data = await res.json();
+        setAllData(data);
+      } catch (error) {
+        toast.error("Error Fetch Data", {
+          description: "Server error 500",
+        });
+      }
+    };
+    fetchUserData();
+  }, []);
   return (
     <div className="flex gap-4 items-center text-gray-800 dark:text-gray-200">
       <Popover>
@@ -22,10 +63,10 @@ const Topbar = () => {
             </div>
             <div className="flex-1 text-left min-w-0 font-[600] text-md truncate">
               <div>
-                {"administrator".charAt(0).toUpperCase() +
-                  "administrator".slice(1)}
+                {allData.username.charAt(0).toUpperCase() +
+                  allData.username.slice(1)}
               </div>
-              <div className="text-xs font-[300]">Admin</div>
+              <div className="text-xs font-[300]">{allData.role}</div>
             </div>
             <ChevronDown className="shrink-0 w-5 h-5 transition-transform duration-200 group-data-[state=open]:rotate-180" />
           </button>
@@ -45,16 +86,19 @@ const Topbar = () => {
                   <User className="w-4 h-4 text-gray-500 shrink-0" />
                   <span
                     className="truncate max-w-[140px]"
-                    title="administrator"
+                    title={allData.username}
                   >
-                    {"administrator".charAt(0).toUpperCase() +
-                      "administrator".slice(1)}
+                    {allData.username.charAt(0).toUpperCase() +
+                      allData.username.slice(1)}
                   </span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-gray-800 dark:text-gray-200">
                   <Mail className="w-4 h-4 text-gray-500 shrink-0" />
-                  <span className="truncate max-w-[140px]" title="admin@ct.com">
-                    admin@ct.com
+                  <span
+                    className="truncate max-w-[140px]"
+                    title={allData.email}
+                  >
+                    {allData.email}
                   </span>
                 </div>
               </div>
