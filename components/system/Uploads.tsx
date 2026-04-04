@@ -14,8 +14,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "../ui/breadcrumb";
-import { useRef, useState } from "react";
-import z from "zod";
+import React, { useRef, useState } from "react";
 import { Field, FieldDescription, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import {
@@ -39,72 +38,14 @@ import {
   HoverCardTrigger,
 } from "../ui/hover-card";
 import { Button } from "../ui/button";
-
-const uploadsSchema = z.object({
-  file: z
-    .instanceof(File, { message: "Please upload a valid file." })
-    .refine((file) => file.name.endsWith(".zip"), {
-      message: "Only .zip files are allowed.",
-    })
-    .refine(
-      (file) =>
-        file.type === "application/zip" ||
-        file.type === "application/x-zip-compressed",
-      { message: "Invalid zip format." },
-    ),
-  servicename: z
-    .string()
-    .min(1, { message: "Service Name is required." })
-    .max(25, { message: "Service Name must be less than 25 characters." })
-    .refine((service) => service === service.toLowerCase(), {
-      message: "Service Name must be in lowercase.",
-    })
-    .regex(/^[a-z0-9-]+$/, {
-      message: "Service Name contains special characters not allowed.",
-    }),
-  port: z
-    .string()
-    .min(1, { message: "Port is required." })
-    .regex(/^[\d]+$/, {
-      message: "Port must be a number.",
-    })
-    .refine((port) => parseInt(port) > 0 && parseInt(port) < 65536, {
-      message: "Port number must be between 1 and 65535.",
-    })
-    .max(5, { message: "Port number must be less than 65536." }),
-  domain: z
-    .string()
-    .min(1, { message: "Domain is required." })
-    .max(30, { message: "Domain must be less than 30 characters." })
-    .refine((domain) => domain === domain.toLowerCase(), {
-      message: "Domain must be in lowercase.",
-    })
-    .refine((domain) => !domain.includes(" "), {
-      message: "Domain must not contain spaces.",
-    })
-    .regex(/^[a-z0-9.-]+$/, {
-      message: "Domain contains special characters not allowed.",
-    })
-    .refine((domain) => !domain.startsWith("-") && !domain.startsWith("."), {
-      message: "Domain must not start with a dash (-) or a dot (.).",
-    })
-    .refine((domain) => !domain.endsWith("-") && !domain.endsWith("."), {
-      message: "Domain must not end with a dash (-) or a dot (.).",
-    })
-    .refine((domain) => !/--|\.\.|-\.|\.-/.test(domain), {
-      message:
-        "Domain contains invalid character sequences (like '--' or '..').",
-    })
-    .refine((domain) => domain !== "addp.site", {
-      message: "Domain name 'addp.site' is not allowed.",
-    })
-    .refine((domain) => !domain.endsWith(".addp.site"), {
-      message: "Domain ending with '.addp.site' is not allowed.",
-    }),
-});
+import { toast } from "sonner";
 
 const ComponentUploads = () => {
   const [file, setFile] = useState<File | null>(null);
+  const [serviceName, setServiceName] = useState<string>("");
+  const [port, setPort] = useState<string>("");
+  const [domain, setDomain] = useState<string>("");
+  const [uploadType, setUploadType] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const toCheckFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -117,7 +58,42 @@ const ComponentUploads = () => {
       fileInputRef.current.value = "";
     }
   };
-
+  const uploadProject = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const toastID = "toast-upload";
+    toast.loading("Loading...", { id: toastID });
+    if (!file) {
+      toast.error("Error", { description: "Select File !", id: toastID });
+      return;
+    }
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("serviceName", serviceName);
+    formData.append("port", port);
+    formData.append("domain", domain);
+    formData.append("uploadType", uploadType);
+    const res = await fetch("/api/upload", { method: "POST", body: formData });
+    const data = await res.json();
+    if (!res.ok) {
+      console.log("API Error Response:", data);
+      toast.error("Upload Failed", {
+        description: data.error || "Failed to upload",
+        id: toastID,
+      });
+      return;
+    }
+    toast.success("Upload Successfuly", {
+      id: toastID,
+      description: data.message,
+    });
+    setFile(null);
+    setServiceName("");
+    setPort("");
+    setDomain("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
   return (
     <div className="max-w-screen min-h-full flex items-center justify-start flex-col">
       <Breadcrumb className="w-full justify-center items-center mt-10 md:mt-2 md:px-9 md:py-5">
@@ -136,6 +112,8 @@ const ComponentUploads = () => {
       <div className="w-full min-h-[750px] p-4 md:px-8 overflow-hidden">
         <form
           action="#"
+          id="form-upload"
+          onSubmit={uploadProject}
           className="w-full h-full flex flex-col justify-start items-center"
         >
           <Field className="mb-4 md:mb-0">
@@ -175,6 +153,7 @@ const ComponentUploads = () => {
                 type="file"
                 className="hidden"
                 onChange={toCheckFile}
+                ref={fileInputRef}
               />
             </label>
             <FieldDescription>
@@ -192,9 +171,19 @@ const ComponentUploads = () => {
                   type="text"
                   className="h-15 shadow-none"
                   placeholder="Enter Your Service Name"
+                  value={serviceName}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setServiceName(e.target.value);
+                  }}
+                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (e.key === " ") {
+                      e.preventDefault();
+                    }
+                  }}
                 />
                 <FieldDescription>
-                  Specify only one HTTP service from your docker-compose to expose to your domain.
+                  Specify only one HTTP service from your docker-compose to
+                  expose to your domain.
                 </FieldDescription>
               </Field>
             </div>
@@ -206,6 +195,15 @@ const ComponentUploads = () => {
                   type="text"
                   className="h-15 shadow-none"
                   placeholder="Enter Port Number"
+                  value={port}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setPort(e.target.value);
+                  }}
+                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (e.key === " ") {
+                      e.preventDefault();
+                    }
+                  }}
                 />
                 <FieldDescription>
                   The internal port your service listens on (e.g., 3000 for
@@ -221,6 +219,15 @@ const ComponentUploads = () => {
                     id="input-group-url"
                     placeholder="example"
                     className="w-full h-full shadow-none !pl-15 !pr-20"
+                    value={domain}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setDomain(e.target.value);
+                    }}
+                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                      if (e.key === " ") {
+                        e.preventDefault();
+                      }
+                    }}
                   />
                   <InputGroupAddon
                     align="inline-start"
@@ -247,7 +254,11 @@ const ComponentUploads = () => {
                   Deployment Action
                 </FieldLabel>
                 <div className="relative w-full">
-                  <Select>
+                  <Select
+                    onValueChange={(value) => {
+                      setUploadType(value);
+                    }}
+                  >
                     <SelectTrigger
                       className="w-full !h-15 shadow-none"
                       id="input-deployment-action"
@@ -258,8 +269,8 @@ const ComponentUploads = () => {
                     <SelectContent position="popper" sideOffset={4}>
                       <SelectGroup>
                         <SelectLabel>Deployment Type</SelectLabel>
-                        <SelectItem value="Deploy">Deploy</SelectItem>
-                        <SelectItem value="Update">Update</SelectItem>
+                        <SelectItem value="deploy">Deploy</SelectItem>
+                        <SelectItem value="update">Update</SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>
@@ -305,7 +316,11 @@ const ComponentUploads = () => {
             </div>
           </div>
           <div className="w-full mt-10 justify-center items-center flex">
-            <Button className="flex items-center w-1/1 xl:w-1/3 shadow-none h-15 rounded-xl bg-black/85 dark:bg-white dark:hover:bg-white/90 cursor-pointer group font-[600] text-md gap-3">
+            <Button
+              form="form-upload"
+              type="submit"
+              className="flex items-center w-1/1 xl:w-1/3 shadow-none h-15 rounded-xl bg-black/85 dark:bg-white dark:hover:bg-white/90 cursor-pointer group font-[600] text-md gap-3"
+            >
               <CloudUpload className="!w-7 !h-7 transition duration-200 group-hover:-translate-y-1" />
               Upload & Deploy
             </Button>

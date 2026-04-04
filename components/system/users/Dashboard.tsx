@@ -131,7 +131,7 @@ const UserDashboard = () => {
     {
       title: "Documents",
       description: "Read user guides and platform tutorials.",
-      value: "Open Docs",
+      value: "Read Docs",
       icon: FileText,
       iconColor: "text-emerald-500",
       href: "https://docs.addp.site",

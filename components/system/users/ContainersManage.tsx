@@ -53,8 +53,10 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
+import { boolean } from "zod";
 
 type containersData = {
+  containerName: string;
   protocol: string;
   domain: string;
   port: string;
@@ -69,6 +71,10 @@ const ComponentContainersManage = () => {
     useState<containersData | null>(null);
   const [port, setPort] = useState<string>("");
   const [protocol, setProtocol] = useState<string>("");
+  const [publish, setPublish] = useState<boolean>(
+    Boolean(selectedContainers?.publish),
+  );
+  const [reFresh, setReFresh] = useState<number>(0);
   const [containersData, setContainersData] = useState<containersData[]>([]);
   useEffect(() => {
     const fetchContainersData = async () => {
@@ -95,7 +101,105 @@ const ComponentContainersManage = () => {
       }
     };
     fetchContainersData();
-  }, []);
+  }, [reFresh]);
+  const toEditContainers = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const toastID = toast.loading("Loading...");
+    const containerName = selectedContainers?.containerName;
+    try {
+      const res = await fetch("/api/containers-manage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          port: String(port),
+          containerName,
+          protocol,
+          publish,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error("Error", { id: toastID, description: data.error });
+        return;
+      }
+      toast.success("Update Successfuly", {
+        id: toastID,
+        description: data.message,
+      });
+    } catch (error) {
+      toast.dismiss(toastID);
+      toast.error("Error", { description: "Server Error 500" });
+    }
+    setReFresh(Date.now());
+  };
+  const toControlContainers = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    e.preventDefault();
+    const toastID = toast.loading("Loading...");
+    const projectPath = selectedContainers?.projectPath;
+    const containerStatus = selectedContainers?.status;
+    try {
+      const res = await fetch("/api/control-containers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ projectPath, containerStatus }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error("Error", { id: toastID, description: data.error });
+        return;
+      }
+      if (containerStatus === "running") {
+        toast.success("Stop Containers Success", {
+          id: toastID,
+          description: data.message,
+        });
+        return;
+      } else {
+        toast.success("Start Containers Success", {
+          id: toastID,
+          description: data.message,
+        });
+        return;
+      }
+    } catch (error) {
+      toast.dismiss(toastID);
+      toast.error("Error", { description: "Server Error 500" });
+    }
+    setReFresh(Date.now());
+  };
+  const toDeleteStack = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const toastID = toast.loading("Loading...");
+    const projectPath = selectedContainers?.projectPath;
+    try {
+      const res = await fetch("/api/delete-containers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ projectPath }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error("Error", { id: toastID, description: data.error });
+        return;
+      }
+      toast.success("Delete Containers Success", {
+        id: toastID,
+        description: data.message,
+      });
+    } catch (error) {
+      toast.dismiss(toastID);
+      toast.error("Error", { description: "Server Error 500" });
+    }
+    setReFresh(Date.now());
+  };
   return (
     <div className="max-w-screen min-h-full flex items-center justify-start flex-col">
       <Breadcrumb className="h-full w-full justify-center items-center mt-10 md:mt-2 md:px-9 md:py-5">
@@ -293,6 +397,11 @@ const ComponentContainersManage = () => {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setPort(e.target.value);
                   }}
+                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (e.key === " ") {
+                      e.preventDefault();
+                    }
+                  }}
                 />
                 <FieldDescription>
                   The internal port your service listens on (e.g., 3000 for
@@ -314,7 +423,10 @@ const ComponentContainersManage = () => {
                     <Switch
                       key={selectedContainers?.domain}
                       id="switch-db"
-                      defaultChecked={selectedContainers?.publish}
+                      defaultChecked={publish}
+                      onCheckedChange={(checked) =>
+                        setPublish(checked as boolean)
+                      }
                     />
                   </Field>
                 </FieldLabel>
@@ -323,7 +435,7 @@ const ComponentContainersManage = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 w-full gap-2 md:gap-4">
               <div className="w-full">
                 <Button
-                  form="form-edit-users"
+                  onClick={toEditContainers}
                   className="shadow-none h-10 w-full md:h-13 bg-black/85 dark:bg-white dark:hover:bg-white/80 cursor-pointer"
                 >
                   Save Change
@@ -332,7 +444,7 @@ const ComponentContainersManage = () => {
               <div className="w-full">
                 {selectedContainers?.status == "running" && (
                   <Button
-                    form="form-edit-users"
+                    onClick={toControlContainers}
                     className="shadow-none h-10 w-full md:h-13 cursor-pointer bg-amber-500 text-white hover:bg-amber-600 dark:bg-amber-500 dark:hover:bg-amber-700 transition-colors"
                   >
                     Stop
@@ -340,7 +452,7 @@ const ComponentContainersManage = () => {
                 )}
                 {selectedContainers?.status == "stopped" && (
                   <Button
-                    form="form-edit-users"
+                    onClick={toControlContainers}
                     className="shadow-none h-10 w-full md:h-13 cursor-pointer bg-emerald-600 text-white hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-700 transition-colors"
                   >
                     Start
@@ -394,6 +506,7 @@ const ComponentContainersManage = () => {
                       <AlertDialogAction
                         variant="destructive"
                         className="shadow-none dark:bg-red-500 dark:hover:bg-red-700 dark:text-white"
+                        onClick={toDeleteStack}
                       >
                         Yes, delete stack
                       </AlertDialogAction>
