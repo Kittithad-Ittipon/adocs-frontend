@@ -53,7 +53,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { boolean } from "zod";
+import { pollCeleryTask } from "@/lib/task-check";
 
 type containersData = {
   containerName: string;
@@ -71,9 +71,7 @@ const ComponentContainersManage = () => {
     useState<containersData | null>(null);
   const [port, setPort] = useState<string>("");
   const [protocol, setProtocol] = useState<string>("");
-  const [publish, setPublish] = useState<boolean>(
-    Boolean(selectedContainers?.publish),
-  );
+  const [publish, setPublish] = useState<boolean>(false);
   const [reFresh, setReFresh] = useState<number>(0);
   const [containersData, setContainersData] = useState<containersData[]>([]);
   useEffect(() => {
@@ -116,7 +114,7 @@ const ComponentContainersManage = () => {
           port: String(port),
           containerName,
           protocol,
-          publish,
+          publish: Boolean(publish),
         }),
       });
       const data = await res.json();
@@ -128,6 +126,7 @@ const ComponentContainersManage = () => {
         id: toastID,
         description: data.message,
       });
+      setIsOpen(false);
     } catch (error) {
       toast.dismiss(toastID);
       toast.error("Error", { description: "Server Error 500" });
@@ -155,26 +154,46 @@ const ComponentContainersManage = () => {
         return;
       }
       if (containerStatus === "running") {
-        toast.success("Stop Containers Success", {
+        toast.info("Stoping Containers", {
           id: toastID,
           description: data.message,
         });
+        setReFresh(Date.now());
+        setIsOpen(false);
+        const isSuccess = await pollCeleryTask(
+          data.taskID,
+          `Start '${selectedContainers?.containerName}' Successfully`,
+          `Start '${selectedContainers?.containerName}' Failed `,
+        );
+        if (isSuccess) {
+          setSelectedContainers(null);
+          setReFresh(Date.now());
+        }
         return;
       } else {
-        toast.success("Start Containers Success", {
+        toast.info("Starting Containers", {
           id: toastID,
           description: data.message,
         });
+        setReFresh(Date.now());
+        setIsOpen(false);
+        const isSuccess = await pollCeleryTask(
+          data.taskID,
+          `Start '${selectedContainers?.containerName}' Successfully`,
+          `Start '${selectedContainers?.containerName}' Failed `,
+        );
+        if (isSuccess) {
+          setSelectedContainers(null);
+          setReFresh(Date.now());
+        }
         return;
       }
     } catch (error) {
       toast.dismiss(toastID);
       toast.error("Error", { description: "Server Error 500" });
     }
-    setReFresh(Date.now());
   };
   const toDeleteStack = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
     const toastID = toast.loading("Loading...");
     const projectPath = selectedContainers?.projectPath;
     try {
@@ -194,11 +213,22 @@ const ComponentContainersManage = () => {
         id: toastID,
         description: data.message,
       });
+      setIsOpen(false);
+      setReFresh(Date.now());
+      const isSuccess = await pollCeleryTask(
+        data.taskID,
+        `Delete '${selectedContainers?.containerName}' Successfully`,
+        `Delete '${selectedContainers?.containerName}' Failed `,
+      );
+      if (isSuccess) {
+        setContainersData([]);
+        setSelectedContainers(null);
+        setReFresh(Date.now());
+      }
     } catch (error) {
       toast.dismiss(toastID);
       toast.error("Error", { description: "Server Error 500" });
     }
-    setReFresh(Date.now());
   };
   return (
     <div className="max-w-screen min-h-full flex items-center justify-start flex-col">
@@ -318,6 +348,7 @@ const ComponentContainersManage = () => {
                         setSelectedContainers(value);
                         setPort(value.port);
                         setProtocol(value.protocol);
+                        setPublish(value.publish);
                       }}
                       className="flex justify-start items-center text-gray-400 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300 transition-colors h-full"
                     >
@@ -456,6 +487,16 @@ const ComponentContainersManage = () => {
                     className="shadow-none h-10 w-full md:h-13 cursor-pointer bg-emerald-600 text-white hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-700 transition-colors"
                   >
                     Start
+                  </Button>
+                )}
+                {selectedContainers?.status == "pending" && (
+                  <Button
+                    onClick={(e) => {
+                      toast.warning("Status Pending");
+                    }}
+                    className="shadow-none h-10 w-full md:h-13 cursor-pointer bg-gray-600 text-white hover:bg-gray-700 dark:bg-gray-600 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    Pending
                   </Button>
                 )}
               </div>

@@ -141,7 +141,6 @@ const ComponentProfile = () => {
     }
   };
   const toDeleteUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
     const toastID = toast.loading("Loading...");
     const username = allData.username;
     try {
@@ -248,12 +247,12 @@ const ComponentProfile = () => {
                 onSubmit={toRePasswordProfile}
               >
                 <Field>
-                  <FieldLabel htmlFor="new-password">New Password</FieldLabel>
+                  <FieldLabel htmlFor="new-password">Password</FieldLabel>
                   <Input
                     id="new-password"
                     type="password"
                     className="h-12 shadow-none"
-                    placeholder="Enter new password"
+                    placeholder="Enter password"
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
@@ -268,13 +267,13 @@ const ComponentProfile = () => {
                 </Field>
                 <Field>
                   <FieldLabel htmlFor="confirm-password">
-                    Confirm Password
+                    New Password
                   </FieldLabel>
                   <Input
                     id="confirm-password"
                     type="password"
                     className="h-12 shadow-none"
-                    placeholder="Confirm new password"
+                    placeholder="Enter New password"
                     value={newPassword}
                     onChange={(e) => {
                       setNewPassword(e.target.value);

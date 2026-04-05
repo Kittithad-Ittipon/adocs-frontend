@@ -28,11 +28,11 @@ export async function POST(request: Request) {
       },
       body: formData,
     });
-    const data = await flaskRes.json();
+    const flaskData = await flaskRes.json();
     if (!flaskRes.ok) {
-      return NextResponse.json(data, { status: flaskRes.status });
+      return NextResponse.json(flaskData, { status: flaskRes.status });
     }
-    return NextResponse.json(data, { status: flaskRes.status });
+    return NextResponse.json(flaskData, { status: flaskRes.status });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ error: "Server Error" }, { status: 500 });

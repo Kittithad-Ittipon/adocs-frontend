@@ -39,6 +39,7 @@ import {
 } from "../ui/hover-card";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
+import { pollCeleryTask } from "@/lib/task-check";
 
 const ComponentUploads = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -93,6 +94,11 @@ const ComponentUploads = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+    const isSuccess = await pollCeleryTask(
+      data.taskID,
+      `Deploy '${serviceName}' Successfully`,
+      `Deploy '${serviceName}' Failed `,
+    );
   };
   return (
     <div className="max-w-screen min-h-full flex items-center justify-start flex-col">

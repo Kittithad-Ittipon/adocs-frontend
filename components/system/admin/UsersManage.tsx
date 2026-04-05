@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -51,6 +51,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
+import { date } from "zod";
+import { pollCeleryTask } from "@/lib/task-check";
 
 type usersData = {
   username: string;
@@ -67,6 +69,9 @@ const ComponentUsersManage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState<usersData | null>(null);
   const [usersData, setUsersData] = useState<usersData[]>([]);
+  const [reFresh, setReFresh] = useState<number>(0);
+  const [useDB, setUseDB] = useState<boolean>(false);
+  const [maxContainers, setMaxContainers] = useState<string>("");
   useEffect(() => {
     const fetchContainersData = async () => {
       const toastID = "toast-containers-data";
@@ -92,7 +97,73 @@ const ComponentUsersManage = () => {
       }
     };
     fetchContainersData();
-  }, []);
+  }, [reFresh]);
+  const toEditUsers = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const toastID = toast.loading("Loading...");
+    const userName = selectedUsers?.username;
+    try {
+      const res = await fetch("/api/users-edit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          maxContainers,
+          userName,
+          useDB: Boolean(useDB),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error("Error", { id: toastID, description: data.error });
+        return;
+      }
+      toast.success("Update Successfuly", {
+        id: toastID,
+        description: data.message,
+      });
+    } catch (error) {
+      toast.dismiss(toastID);
+      toast.error("Error", { description: "Server Error 500" });
+    }
+    setReFresh(Date.now());
+    setIsOpen(false);
+  };
+  const toDeleteUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const toastID = toast.loading("Loading...");
+    const username = selectedUsers?.username;
+    try {
+      const res = await fetch("/api/del-user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error("Error", { id: toastID, description: data.error });
+        return;
+      }
+      toast.info("Deleting User", {
+        id: toastID,
+      });
+      setReFresh(Date.now());
+      setIsOpen(false);
+      const isSuccess = await pollCeleryTask(
+        data.taskID,
+        `Delete '${selectedUsers?.username}' Successfully`,
+        `Delete '${selectedUsers?.username}' Failed `,
+      );
+      if (isSuccess) {
+        setReFresh(Date.now());
+      }
+    } catch (error) {
+      toast.dismiss(toastID);
+      toast.error("Error", { description: "Server Error 500" });
+    }
+  };
   return (
     <div className="max-w-screen min-h-full flex items-center justify-start flex-col">
       <Breadcrumb className="h-full w-full justify-center items-center mt-10 md:mt-2 md:px-9 md:py-5">
@@ -207,6 +278,8 @@ const ComponentUsersManage = () => {
                       onClick={() => {
                         setIsOpen(true);
                         setSelectedUsers(value);
+                        setMaxContainers(value.maxContainer);
+                        setUseDB(value.db);
                       }}
                       className="flex justify-start items-center text-gray-400 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
                     >
@@ -289,7 +362,10 @@ const ComponentUsersManage = () => {
                   type="text"
                   className="h-15 shadow-none"
                   placeholder="5 - 10"
-                  defaultValue={selectedUsers?.maxContainer}
+                  defaultValue={maxContainers}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setMaxContainers(e.target.value);
+                  }}
                 />
                 <FieldDescription>
                   Define the maximum number of containers this user is allowed
@@ -313,7 +389,10 @@ const ComponentUsersManage = () => {
                     <Switch
                       key={selectedUsers?.username}
                       id="switch-db"
-                      defaultChecked={selectedUsers?.db}
+                      defaultChecked={useDB}
+                      onCheckedChange={(checked) =>
+                        setUseDB(checked as boolean)
+                      }
                     />
                   </Field>
                 </FieldLabel>
@@ -321,7 +400,7 @@ const ComponentUsersManage = () => {
             </form>
             <div className="grid grid-cols1 md:grid-cols-2 items-center gap-2 md:gap-6 mt-6">
               <Button
-                form="form-edit-users"
+                onClick={toEditUsers}
                 className="shadow-none h-10 md:h-13 bg-black/85 dark:bg-white hover:dark:bg-white/80 cursor-pointer"
               >
                 Save Change
@@ -374,6 +453,7 @@ const ComponentUsersManage = () => {
                     <AlertDialogAction
                       variant="destructive"
                       className="shadow-none dark:bg-red-500 dark:hover:bg-red-700 dark:text-white"
+                      onClick={toDeleteUser}
                     >
                       Yes, delete user
                     </AlertDialogAction>
