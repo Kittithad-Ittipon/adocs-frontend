@@ -83,7 +83,7 @@ const ComponentUploads = () => {
       });
       return;
     }
-    toast.success("Upload Successfuly", {
+    toast.info("Uploading Container", {
       id: toastID,
       description: data.message,
     });
