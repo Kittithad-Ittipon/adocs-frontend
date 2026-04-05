@@ -209,7 +209,7 @@ const ComponentContainersManage = () => {
         toast.error("Error", { id: toastID, description: data.error });
         return;
       }
-      toast.success("Delete Containers Success", {
+      toast.info("Deleting Containers", {
         id: toastID,
         description: data.message,
       });
