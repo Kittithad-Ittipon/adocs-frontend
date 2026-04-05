@@ -16,7 +16,6 @@ export async function GET() {
       cache: "no-store",
     });
     const flaskData = await flaskRes.json();
-    console.log(flaskData);
     if (!flaskRes.ok) {
       return NextResponse.json(
         { error: flaskData.error },

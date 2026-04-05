@@ -42,6 +42,7 @@ export async function POST(request: Request) {
       maxAge: 4 * 60 * 60,
       secure: process.env.NODE_ENV === "production",
     });
+    response.cookies.delete("tokenForgot");
     return response;
   } catch (error) {
     return Response.json({ error: "Server Error" }, { status: 500 });
