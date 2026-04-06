@@ -15,16 +15,6 @@ const LoginForm = () => {
   const CheckStateText = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setShowPassword((prev) => !prev);
-
-    if (showPassword) {
-      toast.info("Password Hidden", {
-        description: "Your password is now hidden from view.",
-      });
-    } else {
-      toast.warning("Password Visible", {
-        description: "Your password is now visible on the screen.",
-      });
-    }
   };
   const toLogin = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
