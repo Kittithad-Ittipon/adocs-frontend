@@ -184,7 +184,7 @@ const RegisterForm = () => {
             </div>
           </Field>
           <div className="flex items-center justify-center">
-            <button className="w-full p-3 h-auto bg-black/85 text-white text-lg font-[500] rounded-xl cursor-pointer transition duration-200 hover:bg-black/75 dark:text-black dark:bg-white dark:hover:bg-white/85 dark:hover:text-black">
+            <button className="w-full p-3 h-auto bg-black/85 text-white text-lg font-[500] rounded-lg cursor-pointer transition duration-200 hover:bg-black/75 dark:text-black dark:bg-white dark:hover:bg-white/85 dark:hover:text-black">
               Register
             </button>
           </div>

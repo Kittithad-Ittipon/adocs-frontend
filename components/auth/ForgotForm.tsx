@@ -61,7 +61,7 @@ const ForgotForm = () => {
         >
           <div className="flex flex-col gap-5">
             <div className="flex gap-2 items-center text-xl font-[600]">
-              <ShieldUser size={30} /> Username / Email
+              <ShieldUser size={30} /> Username or Email
             </div>
             <div>
               <Input
@@ -81,7 +81,7 @@ const ForgotForm = () => {
             </div>
           </div>
           <div className="flex items-center justify-center mt-5">
-            <button className="w-full p-3 h-auto bg-black/85 text-white text-lg font-[500] rounded-xl cursor-pointer transition duration-200 hover:bg-black/75 dark:text-black dark:bg-white dark:hover:bg-white/85 dark:hover:text-black">
+            <button className="w-full p-3 h-auto bg-black/85 text-white text-lg font-[500] rounded-lg cursor-pointer transition duration-200 hover:bg-black/75 dark:text-black dark:bg-white dark:hover:bg-white/85 dark:hover:text-black">
               Send OTP
             </button>
           </div>
