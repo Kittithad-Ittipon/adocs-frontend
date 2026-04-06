@@ -62,7 +62,7 @@ const Main = () => {
       icon: (
         <FaHtml5 className="w-10 h-10 text-black dark:text-white group-hover:text-sky-500 dark:group-hover:text-cyan-300 transition duration-200" />
       ),
-      link: "https://docs.addp.site/docs/html",
+      link: "https://adocs-document.vercel.app/docs/html",
     },
     {
       title: "Python",
@@ -71,7 +71,7 @@ const Main = () => {
       icon: (
         <FaPython className="w-10 h-10 text-black dark:text-white group-hover:text-sky-500 dark:group-hover:text-cyan-300 transition duration-200" />
       ),
-      link: "https://docs.addp.site/docs/python/flask",
+      link: "https://adocs-document.vercel.app/docs/python/flask",
     },
     {
       title: "PHP",
@@ -79,7 +79,7 @@ const Main = () => {
       icon: (
         <SiPhp className="w-10 h-10 text-black dark:text-white group-hover:text-sky-500 dark:group-hover:text-cyan-300 transition duration-200" />
       ),
-      link: "https://docs.addp.site/docs/php/php",
+      link: "https://adocs-document.vercel.app/docs/php/php",
     },
     {
       title: "Node.js",
@@ -88,7 +88,7 @@ const Main = () => {
       icon: (
         <FaNodeJs className="w-10 h-10 text-black dark:text-white group-hover:text-sky-500 dark:group-hover:text-cyan-300 transition duration-200" />
       ),
-      link: "https://docs.addp.site/docs/nodejs/express",
+      link: "https://adocs-document.vercel.app/docs/nodejs/express",
     },
     {
       title: "Databases",
@@ -97,7 +97,7 @@ const Main = () => {
       icon: (
         <FaDatabase className="w-10 h-10 text-black dark:text-white group-hover:text-sky-500 dark:group-hover:text-cyan-300 transition duration-200" />
       ),
-      link: "https://docs.addp.site/docs/mysql",
+      link: "https://adocs-document.vercel.app/docs/mysql",
     },
     {
       title: "Management Tools",
@@ -106,7 +106,7 @@ const Main = () => {
       icon: (
         <FaCogs className="w-10 h-10 text-black dark:text-white group-hover:text-sky-500 dark:group-hover:text-cyan-300 transition duration-200" />
       ),
-      link: "https://docs.addp.site/docs/docker-app",
+      link: "https://adocs-document.vercel.app/docs/docker-app",
     },
   ];
 

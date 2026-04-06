@@ -1,4 +1,4 @@
-import { FaFacebook, FaGithub } from "react-icons/fa";
+import { FaDocker, FaFacebook, FaGithub } from "react-icons/fa";
 import { SiGmail } from "react-icons/si";
 
 const AboutUs = () => {
@@ -10,6 +10,7 @@ const AboutUs = () => {
       gmLink:
         "https://mail.google.com/mail/u/0/?fs=1&to=a.kittithad.ittipon@gmail.com&tf=cm",
       gitLink: "https://github.com/Kittithad-Ittipon",
+      docker: "https://hub.docker.com/u/adocsdeploy",
       bg: "/images/a_2.jpg",
     },
     {
@@ -50,12 +51,13 @@ const AboutUs = () => {
                 className="bg-cover bg-center w-full h-full"
                 style={{ backgroundImage: `url('${value.bg}')` }}
               >
-                <div className="bg-black/10 dark:bg-black/35 w-full h-full group-hover:bg-transparent dark:group-hover:bg-transparent transition duration-200">
-                </div>
+                <div className="bg-black/10 dark:bg-black/35 w-full h-full group-hover:bg-transparent dark:group-hover:bg-transparent transition duration-200"></div>
               </div>
             </div>
             <div className="flex flex-col items-center gap-2">
-              <div className="font-[700] text-xl mb-1 group-hover:text-sky-500 dark:group-hover:text-white transition duration-200">{value.name}</div>
+              <div className="font-[700] text-xl mb-1 group-hover:text-sky-500 dark:group-hover:text-white transition duration-200">
+                {value.name}
+              </div>
               <div className="font-[400] text-sm text-gray-500 pb-5 text-center">
                 {value.role}
               </div>
@@ -85,6 +87,16 @@ const AboutUs = () => {
                   className="text-black dark:text-white hover:scale-120 group-hover:text-gray-700 transition duration-200"
                 >
                   <FaGithub size={25} />
+                </a>
+              )}
+              {value.docker && (
+                <a
+                  href={value.docker}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-black dark:text-white hover:scale-120 group-hover:text-gray-700 transition duration-200"
+                >
+                  <FaDocker size={25} />
                 </a>
               )}
             </div>

@@ -9,6 +9,7 @@ import {
   House,
   BookOpenText,
   SquareActivity,
+  ArrowUpRight,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -24,16 +25,16 @@ export default function Navbar() {
   const isActive = (path: string) => {
     scrollYProgress;
     if (path === pathName) {
-      return "text-sky-500 hover:text-black transition duration-200 dark:text-cyan-300 dark:hover:text-white rounded-md p-2 text-center w-30 hover:bg-black/5 dark:hover:bg-white/10";
+      return "text-sky-500 hover:text-black transition duration-200 dark:text-cyan-300 dark:hover:text-white rounded-md p-2 text-center w-35 hover:bg-black/5 dark:hover:bg-white/10";
     } else {
-      return "transition duration-200 dark:hover:text-white text-center rounded-md p-2 w-30 hover:bg-black/5 dark:hover:bg-white/10";
+      return "transition duration-200 dark:hover:text-white text-center rounded-md p-2 w-35 hover:bg-black/5 dark:hover:bg-white/10 flex items-center justify-center gap-1";
     }
   };
 
   return (
     <nav className="w-full h-30 flex items-center justify-center px-4 sticky top-0 left-0 z-50 bg-white dark:bg-[oklch(0.2_0_0)]">
       <div className="w-[95%] xl:w-[80%] h-full flex items-center justify-between">
-        <div className="flex items-center h-full w-[30%] transition duration-100">
+        <div className="flex items-center h-full w-[30%] xl:w-[20%] transition duration-100">
           <div className="flex w-auto h-auto cursor-pointer items-center gap-2 group">
             <Rocket
               size={50}
@@ -48,15 +49,15 @@ export default function Navbar() {
             </p>
           </div>
         </div>
-        <div className="hidden xl:flex justify-center gap-15 2xl:gap-4 3xl:gap-15 h-full items-center w-[40%] text-lg font-[600]">
+        <div className="hidden xl:flex justify-center gap-15 xl:gap-2 2xl:gap-4 3xl:gap-15 h-full items-center w-[40%] text-lg font-[600]">
           <Link href="/" className={isActive("/")}>
             Home
           </Link>
           <Link
-            href="https://docs.addp.site"
-            className={isActive("https://docs.addp.site")}
+            href="https://adocs-document.vercel.app/docs"
+            className={isActive("https://adocs-document.vercel.app/docs")}
           >
-            Document
+            Document <ArrowUpRight className="w-5 h-5" />
           </Link>
           <Link href="/containers" className={isActive("/containers")}>
             Containers
@@ -99,13 +100,15 @@ export default function Navbar() {
                 <House size={23} />
                 Home
               </Link>
-              <Link
-                href="https://docs.addp.site"
+              <a
+                href="https://adocs-document.vercel.app/docs"
                 className="rounded-lg transition duration-200 flex items-center gap-2 p-3 border-b border-transparent hover:bg-black/5 dark:hover:bg-white/10"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <BookOpenText size={23} />
                 Document
-              </Link>
+              </a>
               <Link
                 href="/containers"
                 className="rounded-lg transition duration-200 flex items-center gap-2 p-3 border-b border-transparent hover:bg-black/5 dark:hover:bg-white/10"
