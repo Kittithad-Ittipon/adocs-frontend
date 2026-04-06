@@ -94,9 +94,9 @@ const AboutUs = () => {
                   href={value.docker}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-black dark:text-white hover:scale-120 group-hover:text-gray-700 transition duration-200"
+                  className="text-black dark:text-white hover:scale-120 group-hover:text-sky-400 transition duration-200"
                 >
-                  <FaDocker size={25} />
+                  <FaDocker size={27} />
                 </a>
               )}
             </div>
