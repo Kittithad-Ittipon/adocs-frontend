@@ -53,12 +53,14 @@ export default function Navbar() {
           <Link href="/" className={isActive("/")}>
             Home
           </Link>
-          <Link
+          <a
             href="https://adocs-document.vercel.app/docs"
             className={isActive("https://adocs-document.vercel.app/docs")}
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            Document <ArrowUpRight className="w-5 h-5" />
-          </Link>
+            Document <ArrowUpRight strokeWidth={2} className="w-4 h-4" />
+          </a>
           <Link href="/containers" className={isActive("/containers")}>
             Containers
           </Link>
