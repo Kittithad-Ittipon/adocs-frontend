@@ -5,7 +5,7 @@ const AboutUs = () => {
   const devData = [
     {
       name: "Kittithad Ittipon",
-      role: "Full-Stack Developer & DevOps",
+      role: "Software & Infrastructure Developer",
       fbLink: "https://www.facebook.com/a.kittihad",
       gmLink:
         "https://mail.google.com/mail/u/0/?fs=1&to=a.kittithad.ittipon@gmail.com&tf=cm",
