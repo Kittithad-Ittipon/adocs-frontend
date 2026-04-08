@@ -122,7 +122,7 @@ const Main = () => {
             </p>
             <p className="text-white w-[85%] md:w-[65%] xl:w-[55%] text-xs md:text-[17px] xl:text-lg font-[500]">
               Manage containers, launch environments, and deploy websites
-              through a user-friendly platform designed for developers.
+              through a user-friendly platform designed for developers. 
             </p>
             <Link
               href="https://adocs-document.vercel.app"
