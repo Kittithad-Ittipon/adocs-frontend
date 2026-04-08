@@ -125,7 +125,7 @@ const Main = () => {
               through a user-friendly platform designed for developers.
             </p>
             <Link
-              href="https://docs.addp.site"
+              href="https://adocs-document.vercel.app"
               className="relative w-auto flex font-[700] justify-start items-center text-xl md:text-3xl xl:text-4xl text-white gap-1 transition duration-200 p-2 rounded-xl group"
             >
               Get Started
