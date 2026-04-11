@@ -47,7 +47,7 @@ const Containers = () => {
   useEffect(() => {
     const fetchContainersData = async () => {
       try {
-        const res = await fetch("/api/active-site");
+        const res = await fetch("/api/containers/active", { method: "GET" });
         if (!res.ok) {
           toast.error("Error Fetch Data", {
             description: "Failed to load",

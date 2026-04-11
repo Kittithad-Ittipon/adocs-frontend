@@ -14,7 +14,7 @@ const ForgotForm = () => {
     e.preventDefault();
     const toastID = toast.loading("Loading...");
     try {
-      const res = await fetch("/api/forgot", {
+      const res = await fetch("/api/auth/forgot", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

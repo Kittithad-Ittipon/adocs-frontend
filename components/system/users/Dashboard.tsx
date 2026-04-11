@@ -55,7 +55,7 @@ const UserDashboard = () => {
     const fetchUserData = async () => {
       const toastID = "toast-users-data";
       try {
-        const res = await fetch("/api/profile");
+        const res = await fetch(`/api/users/profile`, { method: "GET" });
         if (!res.ok) {
           toast.error("Error Fetch Data", {
             description: "Failed to load",
@@ -78,7 +78,7 @@ const UserDashboard = () => {
     const fetchContainersData = async () => {
       const toastID = "toast-containers-data";
       try {
-        const res = await fetch("/api/containers-data");
+        const res = await fetch("/api/containers", { method: "GET" });
         if (!res.ok) {
           if (allData.length == 0) {
             return;

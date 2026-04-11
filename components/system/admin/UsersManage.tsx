@@ -76,7 +76,7 @@ const ComponentUsersManage = () => {
     const fetchContainersData = async () => {
       const toastID = "toast-containers-data";
       try {
-        const res = await fetch("/api/users-manage");
+        const res = await fetch(`/api/users`, { method: "GET" });
         if (!res.ok) {
           if (usersData.length == 0) {
             return;
@@ -103,8 +103,8 @@ const ComponentUsersManage = () => {
     const toastID = toast.loading("Loading...");
     const userName = selectedUsers?.username;
     try {
-      const res = await fetch("/api/users-edit", {
-        method: "POST",
+      const res = await fetch(`/api/users/${userName}`, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -134,8 +134,8 @@ const ComponentUsersManage = () => {
     const toastID = toast.loading("Loading...");
     const username = selectedUsers?.username;
     try {
-      const res = await fetch("/api/del-user", {
-        method: "POST",
+      const res = await fetch(`/api/users/${username}`, {
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },

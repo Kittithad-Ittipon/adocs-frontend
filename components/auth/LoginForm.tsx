@@ -20,7 +20,7 @@ const LoginForm = () => {
     e.preventDefault();
     const toastID = toast.loading("Loading...");
     try {
-      const res = await fetch("/api/login", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

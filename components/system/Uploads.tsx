@@ -73,7 +73,7 @@ const ComponentUploads = () => {
     formData.append("port", port);
     formData.append("domain", domain);
     formData.append("uploadType", uploadType);
-    const res = await fetch("/api/upload", { method: "POST", body: formData });
+    const res = await fetch("/api/containers", { method: "POST", body: formData });
     const data = await res.json();
     if (!res.ok) {
       console.log("API Error Response:", data);

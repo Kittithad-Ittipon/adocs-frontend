@@ -29,14 +29,14 @@ const Topbar = () => {
     userUploadTotal: 0,
   });
   const toLogOut = async () => {
-    await fetch("/api/logout", { method: "POST" });
+    await fetch("/api/auth/logout", { method: "DELETE" });
     rounter.refresh();
     rounter.replace("/");
   };
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const res = await fetch("/api/profile");
+        const res = await fetch("/api/users/profile", { method: "GET" });
         if (!res.ok) {
           toast.error("Error Fetch Data", {
             description: "Failed to load",

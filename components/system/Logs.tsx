@@ -40,7 +40,7 @@ const ComponentLogs = () => {
     const fetchLogsData = async () => {
       const toastID = "toast-logs";
       try {
-        const res = await fetch("/api/logs");
+        const res = await fetch("/api/logs", { method: "GET" });
         if (!res.ok) {
           if (allData.length == 0) {
             return;

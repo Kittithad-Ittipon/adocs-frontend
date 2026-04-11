@@ -69,7 +69,7 @@ const ComponentProfile = () => {
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        const res = await fetch("/api/profile");
+        const res = await fetch("/api/users/profile", { method: "GET" });
         if (!res.ok) {
           toast.error("Error Fetch Data", {
             description: "Failed to load",
@@ -90,10 +90,11 @@ const ComponentProfile = () => {
     e: React.SyntheticEvent<HTMLFormElement>,
   ) => {
     e.preventDefault();
+    const username = allData.username;
     const toastID = toast.loading("Loading...");
     try {
-      const res = await fetch("/api/re-password", {
-        method: "POST",
+      const res = await fetch(`/api/users/${username}/password`, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -117,10 +118,11 @@ const ComponentProfile = () => {
   };
   const toRequestDatabase = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    const username = allData.username;
     const toastID = toast.loading("Loading...");
     try {
-      const res = await fetch("/api/req-db", {
-        method: "POST",
+      const res = await fetch(`/api/users/${username}/requestDB`, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -144,19 +146,18 @@ const ComponentProfile = () => {
     const toastID = toast.loading("Loading...");
     const username = allData.username;
     try {
-      const res = await fetch("/api/del-user", {
-        method: "POST",
+      const res = await fetch(`/api/users/${username}`, {
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username }),
       });
       const data = await res.json();
       if (!res.ok) {
         toast.error("Error", { id: toastID, description: data.error });
         return;
       }
-      await fetch("/api/logout", { method: "POST" });
+      await fetch("/api/auth/logout", { method: "DELETE" });
       toast.success("Delete Success Bye!", {
         id: toastID,
         description: data.message,

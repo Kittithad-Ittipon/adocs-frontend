@@ -25,8 +25,8 @@ const ForgotRePasswordForm = () => {
     e.preventDefault();
     const toastID = toast.loading("Loading...");
     try {
-      const res = await fetch("/api/forgot-repassword", {
-        method: "POST",
+      const res = await fetch("/api/auth/reset", {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },

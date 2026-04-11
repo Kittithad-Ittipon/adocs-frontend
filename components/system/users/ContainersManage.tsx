@@ -105,14 +105,13 @@ const ComponentContainersManage = () => {
     const toastID = toast.loading("Loading...");
     const containerName = selectedContainers?.containerName;
     try {
-      const res = await fetch("/api/containers-manage", {
-        method: "POST",
+      const res = await fetch(`/api/containers/${containerName}`, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           port: String(port),
-          containerName,
           protocol,
           publish: Boolean(publish),
         }),
@@ -141,12 +140,12 @@ const ComponentContainersManage = () => {
     const projectPath = selectedContainers?.projectPath;
     const containerStatus = selectedContainers?.status;
     try {
-      const res = await fetch("/api/control-containers", {
-        method: "POST",
+      const res = await fetch(`/api/containers/${projectPath}/status`, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ projectPath, containerStatus }),
+        body: JSON.stringify({ containerStatus }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -197,12 +196,11 @@ const ComponentContainersManage = () => {
     const toastID = toast.loading("Loading...");
     const projectPath = selectedContainers?.projectPath;
     try {
-      const res = await fetch("/api/delete-containers", {
-        method: "POST",
+      const res = await fetch(`/api/containers/${projectPath}`, {
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ projectPath }),
       });
       const data = await res.json();
       if (!res.ok) {

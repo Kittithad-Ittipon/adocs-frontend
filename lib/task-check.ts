@@ -12,7 +12,7 @@ export const pollCeleryTask = async (
   while (!isTaskFinished) {
     await sleep(2000);
     try {
-      const statusRes = await fetch(`/api/task-status/${taskID}`);
+      const statusRes = await fetch(`/api/tasks/${taskID}`);
       const statusData = await statusRes.json();
 
       if (statusRes.status === 200) {
