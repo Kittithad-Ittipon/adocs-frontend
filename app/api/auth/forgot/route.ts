@@ -5,6 +5,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const result = forgotSchema.safeParse(body);
+    const clientIP = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "127.0.0.1";
     if (!result.success) {
       const errorMessage = result.error.issues[0].message;
       return NextResponse.json({ error: errorMessage }, { status: 400 });
@@ -12,7 +13,7 @@ export async function POST(request: Request) {
     const { username } = result.data;
     const flaskRes = await fetch(`${process.env.NEXTAPI_URL}/auth/forgot`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "X-Forwarded-For": clientIP },
       body: JSON.stringify({ username }),
     });
     const flaskData = await flaskRes.json();

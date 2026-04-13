@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: Request) {
+  const clientIP = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "127.0.0.1";
   try {
     const flaskRes = await fetch(
       `${process.env.NEXTAPI_URL}/containers/active`,
       {
         method: "GET",
-        headers: { Accept: "application/json" },
+        headers: { Accept: "application/json", "X-Forwarded-For": clientIP },
         cache: "no-store",
       },
     );

@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   try {
+    const clientIP = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "127.0.0.1";
     const body = await request.json();
     const result = registerSchema.safeParse(body);
     if (!result.success) {
@@ -13,7 +14,7 @@ export async function POST(request: Request) {
     const { username, email, password, dbState } = result.data;
     const flaskRes = await fetch(`${process.env.NEXTAPI_URL}/users`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "X-Forwarded-For": clientIP },
       body: JSON.stringify({ username, email, password, dbState }),
     });
     const flaskData = await flaskRes.json();
