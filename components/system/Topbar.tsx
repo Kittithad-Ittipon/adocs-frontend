@@ -106,7 +106,7 @@ const Topbar = () => {
             <div className="h-px bg-gray-100 dark:bg-gray-800 my-1 mx-1" />
             <div className="flex flex-col gap-0.5">
               <Link
-                href={"/profile"}
+                href={allData.username == "admin" ? "/profile" : "/users/profile"}
                 className="flex items-center gap-3 px-2 py-2.5 text-sm font-[500] rounded-lg text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-left w-full cursor-pointer"
               >
                 <UserCircle className="w-4 h-4 text-gray-500 shrink-0" />

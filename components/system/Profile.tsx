@@ -373,7 +373,7 @@ const ComponentProfile = () => {
                             description: "You already have a database account.",
                           });
                         }}
-                        className="mt-2 rounded-lg shadow-none font-[500] bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-500 dark:text-white dark:hover:bg-green-600 w-full md:w-1/2 xl:w-full"
+                        className="cursor-pointer mt-2 rounded-lg shadow-none font-[500] bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-500 dark:text-white dark:hover:bg-green-600 w-full md:w-1/2 xl:w-full"
                       >
                         Request Database Account
                       </Button>
@@ -397,7 +397,7 @@ const ComponentProfile = () => {
                     <div className="w-full flex justify-center items-center">
                       <Button
                         onClick={toRequestDatabase}
-                        className="mt-2 rounded-lg shadow-none font-[500] bg-amber-100 text-amber-700 hover:bg-amber-200 dark:bg-amber-500 dark:text-white dark:hover:bg-amber-600 w-full md:w-1/2 xl:w-full"
+                        className="cursor-pointer mt-2 rounded-lg shadow-none font-[500] bg-amber-100 text-amber-700 hover:bg-amber-200 dark:bg-amber-500 dark:text-white dark:hover:bg-amber-600 w-full md:w-1/2 xl:w-full"
                       >
                         Request Database Account
                       </Button>
@@ -422,7 +422,7 @@ const ComponentProfile = () => {
                       <AlertDialogTrigger asChild>
                         <Button
                           variant="destructive"
-                          className="w-full shadow-none font-[500] dark:bg-red-500 dark:hover:bg-red-700 dark:text-white md:w-1/2 xl:w-full"
+                          className="cursor-pointer w-full shadow-none font-[500] dark:bg-red-500 dark:hover:bg-red-700 dark:text-white md:w-1/2 xl:w-full"
                         >
                           Delete Account
                         </Button>
@@ -471,7 +471,7 @@ const ComponentProfile = () => {
                       <AlertDialogTrigger asChild>
                         <Button
                           variant="destructive"
-                          className="w-full shadow-none font-[500] dark:bg-red-500 dark:hover:bg-red-700 dark:text-white md:w-1/2 xl:w-full"
+                          className="cursor-pointer w-full shadow-none font-[500] dark:bg-red-500 dark:hover:bg-red-700 dark:text-white md:w-1/2 xl:w-full"
                         >
                           Delete Account
                         </Button>
@@ -509,13 +509,13 @@ const ComponentProfile = () => {
                         <AlertDialogFooter className="mt-4">
                           <AlertDialogCancel
                             variant="outline"
-                            className="!shadow-none"
+                            className="!shadow-none cursor-pointer cursor-pointer"
                           >
                             Cancel
                           </AlertDialogCancel>
                           <AlertDialogAction
                             variant="destructive"
-                            className="shadow-none dark:bg-red-500 dark:hover:bg-red-700 dark:text-white"
+                            className="shadow-none dark:bg-red-500 dark:hover:bg-red-700 dark:text-white cursor-pointer"
                             onClick={toDeleteUser}
                           >
                             Yes, delete everything

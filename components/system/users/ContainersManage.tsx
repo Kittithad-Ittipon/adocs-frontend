@@ -443,7 +443,7 @@ const ComponentContainersManage = () => {
               <FieldGroup className="w-full mb-4 md:mb-0">
                 <FieldLabel
                   htmlFor="switch-db"
-                  className="!min-h-15 shadow-none"
+                  className="!min-h-15 shadow-none cursor-pointer"
                 >
                   <Field orientation="horizontal">
                     <FieldContent>
@@ -459,6 +459,7 @@ const ComponentContainersManage = () => {
                       onCheckedChange={(checked) =>
                         setPublish(checked as boolean)
                       }
+                      className="cursor-pointer"
                     />
                   </Field>
                 </FieldLabel>
