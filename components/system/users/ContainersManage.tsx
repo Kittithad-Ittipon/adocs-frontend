@@ -78,7 +78,10 @@ const ComponentContainersManage = () => {
     const fetchContainersData = async () => {
       const toastID = "toast-containers-data";
       try {
-        const res = await fetch("/api/containers-data");
+        const res = await fetch("/api/containers", {
+          method: "GET",
+          cache: "no-store",
+        });
         if (!res.ok) {
           if (containersData.length == 0) {
             return;
