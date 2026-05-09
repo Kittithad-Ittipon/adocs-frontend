@@ -115,6 +115,7 @@ const ComponentContainersManage = () => {
         },
         body: JSON.stringify({
           port: String(port),
+          containerName,
           protocol,
           publish: Boolean(publish),
         }),
@@ -148,7 +149,7 @@ const ComponentContainersManage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ containerStatus }),
+        body: JSON.stringify({ projectPath, containerStatus }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -204,6 +205,7 @@ const ComponentContainersManage = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ projectPath }),
       });
       const data = await res.json();
       if (!res.ok) {
