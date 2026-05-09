@@ -143,8 +143,9 @@ const ComponentContainersManage = () => {
     const toastID = toast.loading("Loading...");
     const projectPath = selectedContainers?.projectPath;
     const containerStatus = selectedContainers?.status;
+    const selectedContainerName = selectedContainers?.containerName;
     try {
-      const res = await fetch(`/api/containers/${projectPath}/status`, {
+      const res = await fetch(`/api/containers/${selectedContainerName}/status`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -157,7 +158,7 @@ const ComponentContainersManage = () => {
         return;
       }
       if (containerStatus === "running") {
-        toast.info("Stoping Containers", {
+        toast.info("Stopping Containers", {
           id: toastID,
           description: data.message,
         });
@@ -199,8 +200,9 @@ const ComponentContainersManage = () => {
   const toDeleteStack = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const toastID = toast.loading("Loading...");
     const projectPath = selectedContainers?.projectPath;
+    const selectedContainerName = selectedContainers?.containerName;
     try {
-      const res = await fetch(`/api/containers/${projectPath}`, {
+      const res = await fetch(`/api/containers/${selectedContainerName}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
