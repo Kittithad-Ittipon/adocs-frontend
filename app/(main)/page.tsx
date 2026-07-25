@@ -203,7 +203,7 @@ const Main = () => {
           ))}
         </div>
       </div>
-      <AboutUs />
+      {/* <AboutUs /> */}
       <ContactUs />
       <PoweredBy />
     </main>
